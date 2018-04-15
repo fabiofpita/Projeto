@@ -109,6 +109,13 @@ public class Banco_User {
 
         return resp;
     }
+    /**
+     * retorna o lugar do ultimo usuario colocado no banco.
+     * @return ultima posição
+     */
+    public int getLugar(){
+        return lugar;
+    }
 /*
     /**
      * Metodo responsavel por reorganizar o banco de acordo com o score dos usuarios.
