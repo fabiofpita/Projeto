@@ -59,4 +59,35 @@ public abstract class User {
      * @param info Se receber um boolean TRUE o jogador sera bloqueado, caso receba FALSE ele será desbloqueado.
      */
     public abstract void setBloqueado(boolean info);
+
+    /**
+     * Configura o tempo de bloqueio de um usuário.
+     * @param tempoBloqueado Hora do bloqueio.
+     */
+    public abstract void setTempoBloqueado(long tempoBloqueado);
+
+    /**
+     * Informa o horário que o usuário foi bloqueado.
+     * @return Tempo em milisegundos.
+     */
+    public abstract long getTempoBloqueado();
+
+    /**
+     * Bloqueia um usuário por 2 horas.
+     * @param hora Horário em milisegundos que o usuário foi bloqueado.
+     * @return true caso tenha sido bloqueado e false caso o usuário já esteja bloqueado;
+     */
+    public abstract boolean bloquearUser(long hora);
+
+    /**
+     * Verifica se um usuário está bloqueado.
+     * @param hora Hora da verificação.
+     * @return true se está bloqueado ou false caso não..
+     */
+    public abstract boolean isBloqueado(long hora);
+
+    /**
+     * Verifica quanto tempo falta para o usuario ser desbloqueado.
+     */
+    public abstract int tempoBloqueio();
 }

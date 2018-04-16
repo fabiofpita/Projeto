@@ -1,13 +1,50 @@
 package usuario;
 
+import criptografia.MD5;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Classe responsável pelo cadastro e a autenticação dos usuários.
+ */
 public class Cadastro {
-    private Banco_User banco;
 
-    public Cadastro(Banco_User banco) {
-        this.banco = banco;
+    private Banco_User banco;
+    private int tamanho_banco;
+    private MD5 criptar;
+
+    /**
+     * Construtor da classe cadastro, onde se define o tamanho do banco de usuarios.
+     * @param info define a quantia max de usuarios que o banco comportarám, caso a quantia seja menor que 1
+     *             o valor padrão será 100.
+     */
+    public Cadastro(int info) {
+
+        if(info < 1)
+            info = 100;
+
+        tamanho_banco = info;
+        banco = new Banco_User(tamanho_banco);
+        criptar = new MD5();
+    }
+
+    /**
+     * Método responsável por cadastrar um usuario e criptografar sua senha.
+     * @param info usuario a ser cadastrado.
+     * @return devolve true caso tenha sido cadastrado com sucesso, caso contrário devolverá false.
+     */
+    public boolean newCadastro(User info){
+
+        boolean deuCerto = false;
+
+        if(!banco.bancoIsFull()){
+            info.setSenha(criptar.gerarMD5(info.getSenha()));
+            banco.pushBanco(info);
+            deuCerto = true;
+        }
+
+        return deuCerto;
     }
 
     /**
@@ -35,21 +72,41 @@ public class Cadastro {
         boolean achou = false;
         User aux = null;
         int i = 0,dif;
-        while(i<banco.getLugar()+1 && !achou){
+
+        while(i < banco.getLugar()+1 && !achou){
             aux = banco.pullBanco();
             i++;
-            if(aux.getEmail() == info){
+
+            if(aux != null && aux.getEmail().equals(info)){
                 retorno = aux;
                 achou = true;
-            }else{
-                banco.pushBanco(aux);
             }
+
+            banco.pushBanco(aux);
         }
-        dif = (banco.getLugar()+1- i)+1;
+
+        dif = (banco.getLugar()+1 - i)+1;
+
         while(dif>=0){
             banco.pushBanco(banco.pullBanco());
             dif--;
         }
         return retorno;
+    }
+
+    /**
+     * Método responsável por verificar se a senha é correspondente a do usuario.
+     * @param info usuario a se verificar a senha.
+     * @param senha senha para se verificar.
+     * @return true caso a senha seja a mesma e false caso contrário.
+     */
+    public boolean autenticarSenha(User info, String senha){
+
+        boolean confirma = false;
+
+        if(info.getSenha().equals(criptar.gerarMD5(senha)))
+            confirma = true;
+
+        return confirma;
     }
 }

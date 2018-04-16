@@ -73,57 +73,50 @@ public class Usuario extends User {
         this.bloqueado = info;
     }
 
-    /**
-     * Configura o tempo de bloqueio de um usuário.
-     * @param tempoBloqueado Hora do bloqueio.
-     */
+    @Override
     public void setTempoBloqueado(long tempoBloqueado) {
         this.tempoBloqueado = tempoBloqueado;
     }
 
-    /**
-     * Informa o horário que o usuário foi bloqueado.
-     * @return Tempo em milisegundos.
-     */
+    @Override
     public long getTempoBloqueado() {
         return tempoBloqueado;
     }
 
-    /**
-     * Bloqueia um usuário por 2 horas.
-     * @param info Usuário a ser bloqueado.
-     * @param hora Horário em milisegundos que o usuário foi bloqueado.
-     * @return true caso tenha sido bloqueado e false caso o usuário já esteja bloqueado;
-     */
-    public boolean bloquearUser(User info, long hora) {
+    @Override
+    public boolean bloquearUser(long hora) {
         boolean resp = false;
 
-        if(!info.getBloqueado()) {
+        if(!getBloqueado()) {
             setTempoBloqueado(hora);
-            info.setBloqueado(true);
+            setBloqueado(true);
             resp = true;
         }
         return resp;
     }
 
-    /**
-     * Verifica se um usuário está bloqueado.
-     * @param info Usuário.
-     * @param hora Hora da verificação.
-     * @return true se está bloqueado ou false caso não..
-     */
-    public boolean isBloqueado(Usuario info, long hora){
+    @Override
+    public boolean isBloqueado(long hora){
         boolean resp = false;
-        long aux = hora - info.getTempoBloqueado();
-        if (info.getBloqueado()){
+        long aux = hora - getTempoBloqueado();
+        if (getBloqueado()){
             if (aux >= BLOQUEIO){
-                info.setBloqueado(false);
+                setBloqueado(false);
             }else{
                 resp = true;
             }
         }
 
         return resp;
+    }
+
+    @Override
+    public int tempoBloqueio(){
+        int tempo = 0;
+        if(getBloqueado())
+            tempo = (int) ((72000000 - (System.currentTimeMillis() - getTempoBloqueado()))/1000/60%1000*0.6);
+
+        return tempo;
     }
 
 }
