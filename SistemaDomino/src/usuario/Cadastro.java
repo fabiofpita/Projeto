@@ -95,6 +95,14 @@ public class Cadastro {
     }
 
     /**
+     * Método retorna o banco de usuários para sua edição.
+     * @return banco de usuarios.
+     */
+    public Banco_User getBanco() {
+        return banco;
+    }
+
+    /**
      * Método responsável por verificar se a senha é correspondente a do usuario.
      * @param info usuario a se verificar a senha.
      * @param senha senha para se verificar.
