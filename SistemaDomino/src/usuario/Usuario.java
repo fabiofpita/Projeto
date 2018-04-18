@@ -8,6 +8,8 @@ public class Usuario extends User {
     private long score;
     private boolean bloqueado;
     private long tempoBloqueado;
+    private int vitorias;
+    private int derrotas;
 
     /**
      * Constante que define o tempo de horas como padrão para bloqueio.
@@ -18,6 +20,8 @@ public class Usuario extends User {
         setNome(nome);
         setEmail(email);
         setSenha(senha);
+        vitorias = 0;
+        derrotas = 0;
         this.score = 0;
         bloqueado = false;
         this.tempoBloqueado = 0;
