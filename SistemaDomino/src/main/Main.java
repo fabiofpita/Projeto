@@ -1,5 +1,6 @@
 package main;
 
+import rank.Ranking;
 import usuario.Cadastro;
 import usuario.User;
 import usuario.Usuario;
@@ -100,12 +101,33 @@ public class Main {
             }
 
         }while(escolhas != 0);
-
-
-
+        /*
+        -----------------------------------------------------------------TESTES CAIO-------------------------------------------------
+        User user = new Usuario("python","caio@g.com","caio");
+        User user2 = new Usuario(">","caio@g2.com","caio");
+        User user3 = new Usuario("all","caiwo@gq.com","caio");
+        User user4 = new Usuario("alle","caaio@gq.com","caio");
+        User user5 = new Usuario("alal","caeio@gq.com","caio");
+        User user6 = new Usuario("allf","cio@gq.com","caio");
+        User user7 = new Usuario("bartijano","cio@gq.com","caio");
+        user.setScore(4);
+        user2.setScore(1);
+        user3.setScore(7);
+        cadastro.newCadastro(user);
+        cadastro.newCadastro(user2);
+        cadastro.newCadastro(user3);
+        cadastro.newCadastro(user4);
+        cadastro.newCadastro(user5);
+        cadastro.newCadastro(user6);
+        cadastro.newCadastro(user7);
+        Ranking rank = new Ranking(cadastro.getBanco());
+        //System.out.println(rank.getRankingGlobal());
+         System.out.println(rank.getRankingTop5());
+        System.out.println(rank.getRankingGlobal());
+        */
     }
 
-    public Usuario readUsuario(String email){
+    public static Usuario readUsuario(String email){
 
         String nome, senha;
 
