@@ -64,6 +64,7 @@ public class Banco_User {
         }
 
         return usuario;
+
     }
 
     /**
@@ -79,6 +80,7 @@ public class Banco_User {
                 banco[i] = banco[i+1];
                 i++;
             }
+
         }
     }
 
@@ -117,4 +119,18 @@ public class Banco_User {
         return lugar;
     }
 
+    /**
+     * FINALIDADE DE TESTE ORDENAÇÃO DO BANCO EM DECRESCENTE
+     */
+    public void ordena(){
+        for(int i=0;i<lugar;i++){
+            for(int j = i; j<lugar+1;j++){
+                if(banco[i].getScore() < banco[j].getScore()){
+                    User aux = banco[j];
+                    banco[j]= banco[i];
+                    banco[i] = aux;
+                }
+            }
+        }
+    }
 }
