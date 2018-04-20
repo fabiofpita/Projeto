@@ -16,6 +16,7 @@ public class Main {
         User usuario;
         Cadastro cadastro = new Cadastro(TAMANHO_MAX);
         Main main = new Main();
+        Ranking ranking = new Ranking(cadastro.getBanco());
 
         boolean confirm = false;
 
@@ -68,7 +69,6 @@ public class Main {
 
                     if(!usuario.isBloqueado(System.currentTimeMillis())){
                         while (tentativas < 3 && !confirm) {
-
                             senha = JOptionPane.showInputDialog(null, "Tentativa " + (tentativas + 1) + " de 3\n\nSenha:", TITULO, JOptionPane.INFORMATION_MESSAGE);
                             if (cadastro.autenticarSenha(usuario, senha)) {
                                 confirm = true;
@@ -94,13 +94,24 @@ public class Main {
             }
 
             while(confirm){
-                escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - ?\n2 - logout", TITULO, JOptionPane.INFORMATION_MESSAGE));
+                escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - Ranking Global\n2 - Ranking Top 5\n0 - logout", TITULO, JOptionPane.INFORMATION_MESSAGE));
 
-                if(escolhas == 2)
+                if(escolhas == 1){
+                    JOptionPane.showMessageDialog(null, ranking.getRankingGlobal(), TITULO, JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                if(escolhas == 2){
+                    JOptionPane.showMessageDialog(null, ranking.getRankingTop5(), TITULO, JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                if(escolhas == 0)
                     confirm = false;
+
+                escolhas = -1;
             }
 
         }while(escolhas != 0);
+
         /*
         -----------------------------------------------------------------TESTES CAIO-------------------------------------------------
         User user = new Usuario("python","caio@g.com","caio");

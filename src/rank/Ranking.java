@@ -26,8 +26,11 @@ public class Ranking {
         User aux = null;
         int limite = banco.getLugar();
         int i = 0,dif;
+        this.banco.ordena();
 
-        while(i < 5 && i < limite){
+        sb.append("Ranking Top 5:\n");
+
+        while(i < 5 && i < limite + 1){
             aux = banco.pullBanco();
             if(aux != null){
                 sb.append("-------------\n");
@@ -47,7 +50,7 @@ public class Ranking {
             banco.pushBanco(banco.pullBanco());
             dif--;
         }
-        this.banco.ordena();
+
         return sb.toString();
     }
 
@@ -62,6 +65,8 @@ public class Ranking {
         User aux = null;
         int limite = banco.getLugar();
         int i = 0;
+        this.banco.ordena();
+
         if(!banco.bancoIsEmpyt()) {
             sb.append("Ranking global:\n");
             while (i < limite +1) {
@@ -80,7 +85,6 @@ public class Ranking {
         }else{
             sb.append("Nenhum jogador registrado");
         }
-        this.banco.ordena();
 
         return sb.toString();
     }
