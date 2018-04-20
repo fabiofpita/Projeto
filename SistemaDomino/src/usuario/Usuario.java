@@ -122,6 +122,37 @@ public class Usuario extends User {
 
         return tempo;
     }
+    
+    
+    /**
+     * Informa a quantidade de vitórias de um usuário.
+     * @return vitórias.
+     */
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    /**
+     * Adiciona uma vitória ao registro do usuário.
+     */
+    public void setVitorias() {
+        this.vitorias = vitorias+1;
+    }
+
+    /**
+     * Informa a quantidade de derrotas do usuário.
+     * @return derrotas;
+     */
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    /**
+     * Adiciona uma derrota ao registro do usuário.
+     */
+    public void setDerrotas() {
+        this.derrotas = derrotas+1;
+    }
 
 }
 
