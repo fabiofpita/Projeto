@@ -1,5 +1,6 @@
 package main;
 
+import domino.Mesa;
 import rank.Ranking;
 import usuario.Cadastro;
 import usuario.User;
@@ -10,6 +11,8 @@ public class Main {
 
     static String TITULO = "Dominó";
     static int TAMANHO_MAX = 300;
+    public static final int ESQUERDO = -1;
+    public static final int DIREITO = 1;
 
     public static void main(String[] args) {
 
@@ -17,6 +20,7 @@ public class Main {
         Cadastro cadastro = new Cadastro(TAMANHO_MAX);
         Main main = new Main();
         Ranking ranking = new Ranking(cadastro.getBanco());
+        Mesa mesa = new Mesa();
 
         boolean confirm = false;
 
@@ -25,6 +29,10 @@ public class Main {
 
         String email;
         String senha;
+
+        //                                              TESTE MESA
+
+        System.out.println(mesa.toString());
 
         do{
 
