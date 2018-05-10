@@ -9,6 +9,7 @@ public class Peca {
 
     private int esquerdo;
     private int direito;
+    private boolean isBucha;
 
     /**
      * Construtor de uma peça de dominó.
@@ -23,8 +24,28 @@ public class Peca {
         if(direito < 0 || direito > 6)
             direito = 1;
 
+        if(esquerdo == direito)
+            isBucha = true;
+        else
+            isBucha = false;
+
         setEsquerdo(esquerdo);
         setDireito(direito);
+    }
+
+    /**
+     * @return Devolve o peso da peça.
+     */
+    public int pesoPeça(){
+        return direito + esquerdo;
+    }
+
+    /**
+     * Metodo retorna que a peca é bucha ou não.
+     * @return se retornar True é bucha e False, caso contrário.
+     */
+    public boolean isBucha(){
+        return isBucha;
     }
 
     /**

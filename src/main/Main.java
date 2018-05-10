@@ -1,5 +1,6 @@
 package main;
 
+import domino.Mao;
 import domino.Mesa;
 import rank.Ranking;
 import usuario.Cadastro;
@@ -22,6 +23,9 @@ public class Main {
         Ranking ranking = new Ranking(cadastro.getBanco());
         Mesa mesa = new Mesa();
 
+        Mao jogador1 = new Mao(7);
+        Mao jogador2 = new Mao(7);
+
         boolean confirm = false;
 
         int escolhas;
@@ -33,6 +37,12 @@ public class Main {
         //                                              TESTE MESA
 
         System.out.println(mesa.toString());
+        mesa.distribuirPecas(jogador1);
+        mesa.distribuirPecas(jogador2);
+        System.out.println("Mesa - " + mesa.toString());
+        System.out.println("Mão jogador 1: " + jogador1.olharMao());
+        System.out.println("Mão jogador 2: " + jogador2.olharMao());
+
 
         do{
 

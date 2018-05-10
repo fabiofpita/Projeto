@@ -1,6 +1,7 @@
 package domino;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 // FALTA MÉTODOS A SEREM CONSTRUIDOS NESTA CLASSE
 
@@ -17,6 +18,30 @@ public class Mesa {
     public Mesa(){
         mesa = new ArrayList<>(28);
         gerarPecas();
+    }
+
+    /**
+     * Metodo distribui as peças aleatoriamente para um jogador.
+     * @param jogador jogador que recebera as peças.
+     * @return true se foi distribuido as peças corretamente e false, caso contrário.
+     */
+    public boolean distribuirPecas(Mao jogador){
+        boolean deu = false;
+        Random diller = new Random();
+        int i = 0;
+
+        if(jogador != null){
+
+            while(jogador.getQuantia() >= i){
+                jogador.addPeca(mesa.remove(diller.nextInt(mesa.size())));
+                i++;
+            }
+
+            deu = true;
+
+        }
+
+        return deu;
     }
 
     /**
