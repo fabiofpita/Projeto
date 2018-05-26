@@ -33,13 +33,10 @@ public class Banco_User {
      */
     public User mostrarUsuario(int info){
 
-        User usuario;
+        User usuario = null;
 
-        try{
+        if(info >= 0 && info < banco.size())
             usuario = banco.get(info);
-        }catch (NullPointerException e){
-            throw new NullPointerException("Valor inexistente. Size " + banco.size() + ", Info " + info);
-        }
 
         return usuario;
     }
@@ -49,12 +46,10 @@ public class Banco_User {
      */
     public User pullBanco(){
 
-        User usuario;
+        User usuario = null;
 
-        try{
+        if(banco.size() > 0){
             usuario = banco.get(0);
-        }catch (NullPointerException e){
-            throw new NullPointerException("Valor informado é inexistente. Size " + banco.size());
         }
 
         return usuario;
