@@ -24,12 +24,13 @@ public class Ranking {
     public String getRankingTop5(){
         StringBuilder sb = new StringBuilder();
         User aux = null;
-        int i = 0;
+        int limite = banco.getSize();
+        int i = 0,dif;
         this.banco.ordena();
 
         sb.append("Ranking Top 5:\n");
 
-        while(i < 5 && i < banco.getSize() ){
+        while(i < 5 && i < limite ){
             aux = banco.mostrarUsuario(i);
             if(aux != null){
                 sb.append("-------------\n");
@@ -62,11 +63,13 @@ public class Ranking {
     public String getRankingGlobal(){
         StringBuilder sb = new StringBuilder();
         User aux = null;
+        int limite = banco.getSize();
         int i = 0;
         this.banco.ordena();
+        System.out.println("SIZEEEEEEEE " + banco.getSize());
         if(!banco.bancoIsEmpyt()) {
             sb.append("Ranking global:\n");
-            while (i < banco.getSize()) {
+            while (i < limite) {
                 aux = banco.mostrarUsuario(i);
                 if (aux != null) {
                     sb.append(i + "-------------\n");

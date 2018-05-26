@@ -111,4 +111,12 @@ public abstract class User implements Comparable<User>{
         }
         return retorno;
     }
+
+    public abstract int getTentativas();
+
+    public abstract void consomeTentativa();
+
+    public abstract void setOnli(boolean estado);
+
+    public abstract boolean isOnli();
 }
