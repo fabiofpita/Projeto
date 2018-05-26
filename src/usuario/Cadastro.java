@@ -25,7 +25,7 @@ public class Cadastro {
             info = 100;
 
         tamanho_banco = info;
-        banco = new Banco_User(tamanho_banco);
+        banco = new Banco_User();
         criptar = new MD5();
     }
 
@@ -73,7 +73,7 @@ public class Cadastro {
         User aux = null;
         int i = 0,dif;
 
-        while(i < banco.getLugar()+1 && !achou){
+        while(i < banco.getSize() && !achou){
             aux = banco.pullBanco();
             i++;
 
@@ -85,7 +85,7 @@ public class Cadastro {
             banco.pushBanco(aux);
         }
 
-        dif = (banco.getLugar()+1 - i)+1;
+        dif = (banco.getSize() - i)+1;
 
         while(dif>=0){
             banco.pushBanco(banco.pullBanco());

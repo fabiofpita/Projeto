@@ -3,7 +3,7 @@ package usuario;
 /**
  * Classe abstrata que representa um jogador.
  */
-public abstract class User {
+public abstract class User implements Comparable<User>{
 
     /**
      * @return Retorna o nome do jogador.
@@ -41,7 +41,7 @@ public abstract class User {
     /**
      * @return Retorna o score do jogador.
      */
-    public abstract long getScore();
+    public abstract int getScore();
 
     /**
      * Acrescenta ao score do jogador.
@@ -90,4 +90,25 @@ public abstract class User {
      * Verifica quanto tempo falta para o usuario ser desbloqueado.
      */
     public abstract int tempoBloqueio();
+
+    public abstract boolean equals(User info);
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean iguais = false;
+        if(obj != null && obj instanceof Usuario){
+            iguais = Integer.toString(this.getScore()).equals(Integer.toString((((Usuario) obj).getScore())));
+        }
+        return iguais;
+    }
+
+    @Override
+    public int compareTo(User user) {
+        int retorno = 0;
+        if(user != null){
+            retorno = Integer.toString(this.getScore()).compareTo(Integer.toString(user.getScore()));
+            retorno = retorno * -1;
+        }
+        return retorno;
+    }
 }

@@ -24,14 +24,14 @@ public class Ranking {
     public String getRankingTop5(){
         StringBuilder sb = new StringBuilder();
         User aux = null;
-        int limite = banco.getLugar();
+        int limite = banco.getSize();
         int i = 0,dif;
         this.banco.ordena();
 
         sb.append("Ranking Top 5:\n");
 
-        while(i < 5 && i < limite + 1){
-            aux = banco.pullBanco();
+        while(i < 5 && i < limite ){
+            aux = banco.mostrarUsuario(i);
             if(aux != null){
                 sb.append("-------------\n");
                 sb.append("Usuario: ");
@@ -41,15 +41,15 @@ public class Ranking {
                 sb.append("\n");
             }
             i++;
-            banco.pushBanco(aux);
+//            banco.pushBanco(aux);
         }
 
-        dif = (banco.getLugar()+1 - i)+1;
+//        dif = (banco.getSize() - i)+1;
 
-        while(dif>=0){
-            banco.pushBanco(banco.pullBanco());
-            dif--;
-        }
+//        while(dif>=0){
+//            banco.pushBanco(banco.pullBanco());
+//            dif--;
+//        }
 
         return sb.toString();
     }
@@ -63,16 +63,16 @@ public class Ranking {
     public String getRankingGlobal(){
         StringBuilder sb = new StringBuilder();
         User aux = null;
-        int limite = banco.getLugar();
+        int limite = banco.getSize();
         int i = 0;
         this.banco.ordena();
-
+        System.out.println("SIZEEEEEEEE " + banco.getSize());
         if(!banco.bancoIsEmpyt()) {
             sb.append("Ranking global:\n");
-            while (i < limite +1) {
-                aux = banco.pullBanco();
+            while (i < limite) {
+                aux = banco.mostrarUsuario(i);
                 if (aux != null) {
-                    sb.append("-------------\n");
+                    sb.append(i + "-------------\n");
                     sb.append("Usuario: ");
                     sb.append(aux.getNome());
                     sb.append("\nScore:");
@@ -80,7 +80,7 @@ public class Ranking {
                     sb.append("\n");
                 }
                 i++;
-                banco.pushBanco(aux);
+//                banco.pushBanco(aux);
             }
         }else{
             sb.append("Nenhum jogador registrado");

@@ -34,6 +34,7 @@ public class Mao {
 
         if(pecas.size() <= quantia && info != null){
             pecas.add(info);
+            status = true;
         }
 
         return status;
@@ -47,7 +48,7 @@ public class Mao {
         String txt = "";
         int i = 0;
 
-        while(pecas.size() - 1 > i){
+        while(pecas.size() > i){
             if(pecas.get(i) != null)
                 txt += " " + (i + 1) + " - " + pecas.get(i).toString();
 
@@ -73,10 +74,29 @@ public class Mao {
 
         Peca devolv = null;
 
-        if(info > 0 && info <= pecas.size())
-            devolv = pecas.remove((info - 1));
+        if(info >= 0 && info < pecas.size())
+            devolv = pecas.remove(info);
 
         return devolv;
+    }
+
+    /**
+     * @return Retorna a quantia de pecas na mao.
+     */
+    public int size(){
+        return pecas.size();
+    }
+
+
+    public int pontoTotal(){
+
+        int pontos = 0, anda = 0;
+
+        while(anda < size()){
+            pontos += pecas.get(anda).pesoPeça();
+        }
+
+        return pontos;
     }
 
 }

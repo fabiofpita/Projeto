@@ -1,26 +1,20 @@
 package usuario;
 
+import java.util.*;
+
 /**
  * Classe responsável por armazenar os usuarios.
  */
 public class Banco_User {
 
-    protected int tamanhobanco;
-    private User[] banco;
-    private int lugar;
+    private List<User> banco;
 
     /**
      * Construtor do banco de usuarios.
-     * @param tamanhobanco quantia MAX de usuarios do jogo, caso o valor seja menor que 1 o novo valor será 10;
      */
-    public Banco_User(int tamanhobanco){
+    public Banco_User(){
 
-        if(tamanhobanco < 1)
-            tamanhobanco = 10;
-
-        this.tamanhobanco = tamanhobanco;
-        banco = new User[this.tamanhobanco];
-        lugar = -1;
+        banco = new ArrayList<>();
     }
 
     /**
@@ -29,10 +23,8 @@ public class Banco_User {
      */
     public void pushBanco(User info){
 
-        if(!bancoIsFull()){
-            lugar ++;
-            banco[lugar] = info;
-        }
+        if(info != null)
+            banco.add(info);
     }
 
     /**
@@ -41,10 +33,12 @@ public class Banco_User {
      */
     public User mostrarUsuario(int info){
 
-        User usuario = null;
+        User usuario;
 
-        if(!bancoIsEmpyt() && info > -1 && info < tamanhobanco){
-            usuario = banco[info];
+        try{
+            usuario = banco.get(info);
+        }catch (NullPointerException e){
+            throw new NullPointerException("Valor inexistente. Size " + banco.size() + ", Info " + info);
         }
 
         return usuario;
@@ -55,12 +49,12 @@ public class Banco_User {
      */
     public User pullBanco(){
 
-        User usuario = null;
+        User usuario;
 
-        if(!bancoIsEmpyt()){
-            usuario = banco[0];
-            moverbanco();
-            lugar --;
+        try{
+            usuario = banco.get(0);
+        }catch (NullPointerException e){
+            throw new NullPointerException("Valor informado é inexistente. Size " + banco.size());
         }
 
         return usuario;
@@ -68,34 +62,11 @@ public class Banco_User {
     }
 
     /**
-     * Metodo reorganiza os usuarios no banco para não ocorrer erros.
-     */
-    private void moverbanco(){
-
-        int i = 0;
-
-        if(!bancoIsEmpyt()){
-
-            while(i < lugar){
-                banco[i] = banco[i+1];
-                i++;
-            }
-
-        }
-    }
-
-    /**
      * Metodo informa se o banco está vazio.
      * @return TRUE se estiver sem usuarios e FALSE caso tenha ao menos um usuario.
      */
     public boolean bancoIsEmpyt(){
-
-        boolean resp = true;
-
-        if(lugar > -1)
-            resp = false;
-
-        return resp;
+        return banco.isEmpty();
     }
 
     /**
@@ -103,35 +74,23 @@ public class Banco_User {
      * @return TRUE se estiver cheio e FALSE caso não esteja cheio.
      */
     public boolean bancoIsFull(){
-
-        boolean resp = true;
-
-        if(lugar < this.tamanhobanco - 1)
-            resp = false;
-
-        return resp;
-    }
-    /**
-     * retorna o lugar do ultimo usuario colocado no banco.
-     * @return ultima posição
-     */
-    public int getLugar(){
-        return lugar;
+        return false;
     }
 
     /**
      * FINALIDADE DE TESTE ORDENAÇÃO DO BANCO EM DECRESCENTE
      */
     public void ordena(){
-        for(int i=0;i<lugar;i++){
-            for(int j = i; j<lugar+1;j++){
-                if(banco[i] != null && banco[j] != null)
-                if(banco[i].getScore() < banco[j].getScore()){
-                    User aux = banco[j];
-                    banco[j]= banco[i];
-                    banco[i] = aux;
-                }
-            }
-        }
+
+        Collections.sort(banco);
+
     }
+
+    /**
+     * @return Retorna a quantia de usuarios no banco.
+     */
+    public int getSize(){
+        return banco.size();
+    }
+
 }

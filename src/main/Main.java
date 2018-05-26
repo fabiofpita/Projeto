@@ -1,5 +1,6 @@
 package main;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import domino.Mao;
 import domino.Mesa;
 import rank.Ranking;
@@ -7,11 +8,13 @@ import usuario.Cadastro;
 import usuario.User;
 import usuario.Usuario;
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     static String TITULO = "Dominó";
-    static int TAMANHO_MAX = 300;
+    static int TAMANHO_MAX = 10;
     public static final int ESQUERDO = -1;
     public static final int DIREITO = 1;
 
@@ -22,9 +25,14 @@ public class Main {
         Main main = new Main();
         Ranking ranking = new Ranking(cadastro.getBanco());
         Mesa mesa = new Mesa();
+        List maos = new ArrayList();
+
 
         Mao jogador1 = new Mao(7);
         Mao jogador2 = new Mao(7);
+
+        maos.add(jogador1);
+        maos.add(jogador2);
 
         boolean confirm = false;
 
@@ -37,8 +45,7 @@ public class Main {
         //                                              TESTE MESA
 
         System.out.println(mesa.toString());
-        mesa.distribuirPecas(jogador1);
-        mesa.distribuirPecas(jogador2);
+        mesa.distribuirPecas(maos);
         System.out.println("Mesa - " + mesa.toString());
         System.out.println("Mão jogador 1: " + jogador1.olharMao());
         System.out.println("Mão jogador 2: " + jogador2.olharMao());
@@ -130,8 +137,8 @@ public class Main {
 
         }while(escolhas != 0);
 
-        /*
-        -----------------------------------------------------------------TESTES CAIO-------------------------------------------------
+
+        //-----------------------------------------------------------------TESTES CAIO-------------------------------------------------
         User user = new Usuario("python","caio@g.com","caio");
         User user2 = new Usuario(">","caio@g2.com","caio");
         User user3 = new Usuario("all","caiwo@gq.com","caio");
@@ -153,7 +160,7 @@ public class Main {
         //System.out.println(rank.getRankingGlobal());
          System.out.println(rank.getRankingTop5());
         System.out.println(rank.getRankingGlobal());
-        */
+
     }
 
     public static Usuario readUsuario(String email){

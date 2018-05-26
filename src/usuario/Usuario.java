@@ -1,11 +1,11 @@
 package usuario;
 
-public class Usuario extends User {
+public class Usuario extends User implements Comparable<User> {
 
     private String nome;
     private String email;
     private String senha;
-    private long score;
+    private int score;
     private boolean bloqueado;
     private long tempoBloqueado;
     private int vitorias;
@@ -58,7 +58,7 @@ public class Usuario extends User {
     }
 
     @Override
-    public long getScore() {
+    public int getScore() {
         return this.score;
     }
 
@@ -122,8 +122,13 @@ public class Usuario extends User {
 
         return tempo;
     }
-    
-    
+
+    @Override
+    public boolean equals(User info) {
+        return false;
+    }
+
+
     /**
      * Informa a quantidade de vitórias de um usuário.
      * @return vitórias.
@@ -153,6 +158,7 @@ public class Usuario extends User {
     public void setDerrotas() {
         this.derrotas = derrotas+1;
     }
+
 
 }
 
