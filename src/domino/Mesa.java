@@ -127,7 +127,7 @@ public class Mesa {
 
         while(!acabou){
 
-            //mao.get(comeca).jogar; // Dou a jogada para o primeiro a jogar
+         //   mao.get(comeca).jogar; // Dou a jogada para o primeiro a jogar
 
             if(acabou(mao, comeca)){
                 vencedor = comeca;

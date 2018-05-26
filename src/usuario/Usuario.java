@@ -1,6 +1,6 @@
 package usuario;
 
-public class Usuario extends User implements Comparable<User> {
+public class Usuario extends User  implements Comparable<User> {
 
     private String nome;
     private String email;
@@ -8,6 +8,8 @@ public class Usuario extends User implements Comparable<User> {
     private int score;
     private boolean bloqueado;
     private long tempoBloqueado;
+    private boolean onli;
+    private int tentativas;
     private int vitorias;
     private int derrotas;
 
@@ -23,10 +25,24 @@ public class Usuario extends User implements Comparable<User> {
         vitorias = 0;
         derrotas = 0;
         this.score = 0;
+        tentativas = 0;
         bloqueado = false;
         this.tempoBloqueado = 0;
     }
+    @Override
+    public int getScore() {
+        return this.score;
+    }
 
+    @Override
+    public void setScore(long info) {
+        this.score += info;
+    }
+
+    @Override
+    public boolean equals(User info) {
+        return false;
+    }
     @Override
     public String getNome() {
         return this.nome;
@@ -57,15 +73,7 @@ public class Usuario extends User implements Comparable<User> {
         this.senha = info;
     }
 
-    @Override
-    public int getScore() {
-        return this.score;
-    }
 
-    @Override
-    public void setScore(long info) {
-        this.score += info;
-    }
 
     @Override
     public boolean getBloqueado() {
@@ -122,11 +130,24 @@ public class Usuario extends User implements Comparable<User> {
 
         return tempo;
     }
+    @Override
+    public int getTentativas(){
+        return tentativas;
+    }
+    @Override
+    public void consomeTentativa(){
+        tentativas++;
+    }
+    @Override
+    public void setOnli(boolean estado){
+        this.onli = estado;
+    }
 
     @Override
-    public boolean equals(User info) {
-        return false;
+    public boolean isOnli(){
+        return onli;
     }
+
 
 
     /**
@@ -158,7 +179,6 @@ public class Usuario extends User implements Comparable<User> {
     public void setDerrotas() {
         this.derrotas = derrotas+1;
     }
-
 
 }
 

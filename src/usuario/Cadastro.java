@@ -60,7 +60,6 @@ public class Cadastro {
         confere = m.matches();
         return confere;
     }
-
     /**
      *  O método procuraEmail recebe uma string que verifica se o e-email existe no banco de usuarios.
      *  qtdUser é a quantidade de usuarios cadastrados no banco.
@@ -101,11 +100,20 @@ public class Cadastro {
      */
     public boolean autenticarSenha(User info, String senha){
 
-        boolean confirma = false;
 
-        if(info.getSenha().equals(criptar.gerarMD5(senha)))
+        boolean confirma;
+
+        if(info.getSenha().equals(criptar.gerarMD5(senha)) && !info.isOnli()) {
             confirma = true;
-
+            User user = procuraEmail(info.getEmail());
+            user.setOnli(true);
+        }else{
+            info.consomeTentativa();
+            if(info.getTentativas() == 3){
+                info.bloquearUser(System.currentTimeMillis());
+            }
+            confirma = false;
+        }
         return confirma;
     }
 }
