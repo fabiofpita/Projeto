@@ -116,4 +116,5 @@ public class Cadastro {
         }
         return confirma;
     }
+
 }

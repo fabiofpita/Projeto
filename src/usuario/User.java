@@ -119,4 +119,6 @@ public abstract class User implements Comparable<User>{
     public abstract void setOnli(boolean estado);
 
     public abstract boolean isOnli();
+
 }
+

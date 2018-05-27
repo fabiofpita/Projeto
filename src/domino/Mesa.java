@@ -129,6 +129,7 @@ public class Mesa {
 
          //   mao.get(comeca).jogar; // Dou a jogada para o primeiro a jogar
 
+
             if(acabou(mao, comeca)){
                 vencedor = comeca;
                 acabou = true;
@@ -219,4 +220,62 @@ public class Mesa {
 
         return retorno;
     }
+
+
+    /**
+     * Verifica se a mesa do jogo está vazia.
+     * @return true caso esteja e false caso não esteja.
+     */
+    public boolean isEmpty(){
+        boolean retorno = false;
+
+        if (jogo.isEmpty()){
+            retorno = true;
+        }
+
+        return retorno;
+    }
+
+    /**
+     * Metodo que verifica o valor da ponta direita da mesa.
+     * @return valor da ponta.
+     */
+    public int verificaPontaDir(){
+        int retorno;
+        if (jogo.size()==1){
+           retorno = jogo.get(0).getDireito();
+        }else{
+            retorno = jogo.get(jogo.size()-1).getDireito();
+        }
+
+        return retorno;
+    }
+
+    /**
+     * Metodo que verifica o valor da ponta esquerda da mesa.
+     * @return valor da ponta.
+     */
+    public int verificaPontaEsq(){
+        return jogo.get(0).getEsquerdo();
+    }
+
+    /**
+     * Adiciona uma peça na ponta esquerda mesa.
+     * @param peca Peça a ser adicionada.
+     * @param index posição inicial do array (0)
+     */
+    public void addPecaNaMesa(Peca peca, int index){
+        jogo.add(0,peca);
+    }
+
+    /**
+     * Adiciona uma peça na ponta direita da mesa.
+     * @param peca Peça a ser adicionada.
+     */
+    public void addPecaNaMesa (Peca peca){
+        jogo.add(peca);
+    }
 }
+
+
+

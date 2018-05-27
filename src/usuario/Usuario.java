@@ -181,4 +181,3 @@ public class Usuario extends User  implements Comparable<User> {
     }
 
 }
-

@@ -1,5 +1,7 @@
 package domino;
+import Interface.JogoHVH;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -99,4 +101,108 @@ public class Mao {
         return pontos;
     }
 
+
+    /**
+     * Metodo que executa uma jogada na mesa.
+     * @param peca Peca que o jogador selecionou.
+     * @param mesa Mesa do jogo.
+     * @return 0 - Caso a jogada tenha sido executada com sucesso;
+     *         1 - Caso a peça selecionada pelo jogador, na primeira jogada,
+     *         não seja a maior bucha de sua mão ou a peça de maior peso.
+     *         2 - Caso a peça selecionada pelo jogador, seja inválida,
+     *         ou seja, não se encaixe em nenhuma das pontas.
+     */
+
+    public int fazJogada(Peca peca, Mesa mesa){
+        int retorno = 0;
+        Peca maior;
+        if(mesa.isEmpty()){
+            if (peca.isBucha()){
+                maior = peca;
+                for (int i=0; i<pecas.size(); i++){
+                    if (maior.pesoPeça()<pecas.get(i).pesoPeça()){
+                        retorno = 1;
+                    }
+                }
+
+                if (retorno == 0){
+                    mesa.addPecaNaMesa(peca);
+                }
+            }else{
+                maior = peca;
+                for (int i=0; i<pecas.size(); i++){
+                    if (maior.pesoPeça()<pecas.get(i).pesoPeça()){
+                        retorno =1;
+                    }
+                }
+
+                if(retorno==0){
+                    mesa.addPecaNaMesa(peca);
+                }
+            }
+        }else{
+            if (peca.getDireito() == mesa.verificaPontaDir()){
+                peca.arrumarPeca(peca.getDireito(), peca.getEsquerdo());
+                mesa.addPecaNaMesa(peca,0);
+            }else{
+                if (peca.getEsquerdo() == mesa.verificaPontaDir()){
+                    mesa.addPecaNaMesa(peca,0);
+                }else{
+                    if(peca.getDireito() == mesa.verificaPontaEsq()){
+                        mesa.addPecaNaMesa(peca);
+                    }else{
+                        if(peca.getEsquerdo() == mesa.verificaPontaDir()){
+                            peca.arrumarPeca(peca.getDireito(), peca.getEsquerdo());
+                            mesa.addPecaNaMesa(peca);
+                        }else{
+                            retorno = 2;
+                        }
+                    }
+                }
+            }
+        }
+
+        return retorno;
+
+    }
+
+    /**
+     * Metodo que executa uma jogada.
+     * @param peca Peca a ser colocada na mesa.
+     * @param ponta Ponta que o jogador deseja coloca-la (0 = ponta esquerda, 1 = ponta direita)
+     * @param mesa Mesa do jogo;
+     * @return 0 - Caso a jogada tenha sido executada com sucesso;
+     */
+    public int fazJogada(Peca peca, int ponta, Mesa mesa){
+        int retorno=0;
+
+        if (ponta == 0){
+            if (peca.getEsquerdo()== mesa.verificaPontaEsq()){
+                peca.arrumarPeca(peca.getDireito(), peca.getEsquerdo());
+                mesa.addPecaNaMesa(peca,0);
+            }else{
+                if (peca.getDireito() == mesa.verificaPontaEsq()){
+                    mesa.addPecaNaMesa(peca,0);
+                }
+            }
+        }else{
+            if (peca.getDireito()== mesa.verificaPontaDir()){
+                peca.arrumarPeca(peca.getDireito(), peca.getEsquerdo());
+                mesa.addPecaNaMesa(peca);
+            }else{
+                if (peca.getEsquerdo() == mesa.verificaPontaDir()){
+                    mesa.addPecaNaMesa(peca);
+                }
+            }
+        }
+
+        return retorno;
+    }
+
+    public void jogar(){
+
+            //this.fazJogada(//metodo que busca peça selecionada da interface, Mesa mesa);
+    }
 }
+
+
