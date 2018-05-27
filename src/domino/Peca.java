@@ -129,5 +129,4 @@ public class Peca {
         txt = "[" + esquerdo + "|" + direito + "]";
         return txt;
     }
-
 }

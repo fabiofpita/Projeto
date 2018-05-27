@@ -33,7 +33,6 @@ public class Mesa {
      * @return true se foi distribuido as peças corretamente e false, caso contrário.
      */
     public boolean distribuirPecas(List jogadores){
-
         boolean deu = false;
         Random diller = new Random();
         int i = 0;
@@ -128,7 +127,8 @@ public class Mesa {
 
         while(!acabou){
 
-            //   mao.get(comeca).jogar; // Dou a jogada para o primeiro a jogar
+         //   mao.get(comeca).jogar; // Dou a jogada para o primeiro a jogar
+
 
             if(acabou(mao, comeca)){
                 vencedor = comeca;
@@ -221,6 +221,7 @@ public class Mesa {
         return retorno;
     }
 
+
     /**
      * Verifica se a mesa do jogo está vazia.
      * @return true caso esteja e false caso não esteja.
@@ -275,3 +276,6 @@ public class Mesa {
         jogo.add(peca);
     }
 }
+
+
+

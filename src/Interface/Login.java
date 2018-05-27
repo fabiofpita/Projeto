@@ -67,17 +67,17 @@ public class Login {
             }
         });
 
-    }
-    public JPanel getPainel(){
+  }
+  public JPanel getPainel(){
         return painel;
-    }
-    public void confereLogados(){
-        if(loginJ1 && loginJ2){
-            buttonPlay.setEnabled(true);
+  }
+  public void confereLogados(){
+      if(loginJ1 && loginJ2){
+          buttonPlay.setEnabled(true);
 
-        }
-    }
-    public boolean logaUser(JTextField fieldEmail, JPasswordField fieldSenha){
+      }
+  }
+  public boolean logaUser(JTextField fieldEmail, JPasswordField fieldSenha){
         boolean deuCerto = false;
         String email = fieldEmail.getText();
         String senha =  new String(fieldSenha.getPassword());

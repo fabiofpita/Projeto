@@ -37,12 +37,26 @@ public class Main {
         String email;
         String senha;
         //                                              TESTE MESA
+
+
+        boolean confirm = false;
+
+        int escolhas;
+        int tentativas;
+
+        String email;
+        String senha;
+
+        //                                              TESTE MESA
+
+
         System.out.println(mesa.toString());
         mesa.distribuirPecas(jogador1);
         mesa.distribuirPecas(jogador2);
         System.out.println("Mesa - " + mesa.toString());
         System.out.println("Mão jogador 1: " + jogador1.olharMao());
         System.out.println("Mão jogador 2: " + jogador2.olharMao());
+
 /*
         do{
             escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - Cadastro\n2 - Login\n0 - Sair", TITULO, JOptionPane.INFORMATION_MESSAGE));
@@ -51,25 +65,50 @@ public class Main {
                 if(email != null)
                     if(cadastro.autenticarEmail(email)){
                         if(cadastro.procuraEmail(email) == null){
+
+
+/*
+        do{
+
+            escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - Cadastro\n2 - Login\n0 - Sair", TITULO, JOptionPane.INFORMATION_MESSAGE));
+
+
+
+            while(escolhas == 1){
+
+                email = JOptionPane.showInputDialog(null, "Digite o e-mail a ser cadastrado:", TITULO, JOptionPane.INFORMATION_MESSAGE);
+                if(email != null)
+                    if(cadastro.autenticarEmail(email)){
+
+                        if(cadastro.procuraEmail(email) == null){
+
+
                             usuario = main.readUsuario(email);
                             if(cadastro.newCadastro(usuario))
                                 JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!", TITULO, JOptionPane.INFORMATION_MESSAGE);
                             else
                                 JOptionPane.showMessageDialog(null, "Erro ao cadastrar-se, favor refazer a operação!", TITULO, JOptionPane.INFORMATION_MESSAGE);
+
                         }else{
                             JOptionPane.showMessageDialog(null, "E-mail já cadastrado!", TITULO, JOptionPane.INFORMATION_MESSAGE);
                         }
+
                     }else{
                         JOptionPane.showMessageDialog(null, "E-mail inválido!", TITULO, JOptionPane.INFORMATION_MESSAGE);
                     }
                 escolhas = -1;
             }
+
             while(escolhas == 2){
+
                 tentativas = 0;
                 confirm = false;
                 email = JOptionPane.showInputDialog(null, "Digite o e-mail para login:", TITULO, JOptionPane.INFORMATION_MESSAGE);
                 usuario = cadastro.procuraEmail(email);
+                
                 if(usuario != null){
+
+
                     if(!usuario.isBloqueado(System.currentTimeMillis())){
                         while (tentativas < 3 && !confirm) {
                             senha = JOptionPane.showInputDialog(null, "Tentativa " + (tentativas + 1) + " de 3\n\nSenha:", TITULO, JOptionPane.INFORMATION_MESSAGE);
@@ -80,30 +119,39 @@ public class Main {
                                 tentativas++;
                             }
                         }
+
                         if (!confirm) {
                             if (usuario.bloquearUser(System.currentTimeMillis()))
                                 JOptionPane.showMessageDialog(null, "Usuario bloqueado por 2hrs\n\n" + usuario.getEmail(), TITULO, JOptionPane.INFORMATION_MESSAGE);
                         }
+
                     }else{
                         JOptionPane.showMessageDialog(null, "Usuario bloqueado por " + usuario.tempoBloqueio() +" minutos", TITULO, JOptionPane.INFORMATION_MESSAGE);
                     }
                 }else{
                     JOptionPane.showMessageDialog(null, "E-mail não encontrado!", TITULO, JOptionPane.INFORMATION_MESSAGE);
                 }
+
                 escolhas = -1;
             }
+
             while(confirm){
                 escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - Ranking Global\n2 - Ranking Top 5\n0 - logout", TITULO, JOptionPane.INFORMATION_MESSAGE));
+
                 if(escolhas == 1){
                     JOptionPane.showMessageDialog(null, ranking.getRankingGlobal(), TITULO, JOptionPane.INFORMATION_MESSAGE);
                 }
+
                 if(escolhas == 2){
                     JOptionPane.showMessageDialog(null, ranking.getRankingTop5(), TITULO, JOptionPane.INFORMATION_MESSAGE);
                 }
+
                 if(escolhas == 0)
                     confirm = false;
+
                 escolhas = -1;
             }
+
         }while(escolhas != 0);
 */
         /*

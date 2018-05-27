@@ -61,5 +61,5 @@ public class TelaCadastro {
         fieldNome.setText("");
         fieldSenha.setText("");
     }
-
 }
+

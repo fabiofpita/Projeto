@@ -1,5 +1,4 @@
 package domino;
-
 import Interface.JogoHVH;
 
 import javax.swing.*;
@@ -101,6 +100,7 @@ public class Mao {
 
         return pontos;
     }
+
 
     /**
      * Metodo que executa uma jogada na mesa.
@@ -204,3 +204,5 @@ public class Mao {
             //this.fazJogada(//metodo que busca peça selecionada da interface, Mesa mesa);
     }
 }
+
+
