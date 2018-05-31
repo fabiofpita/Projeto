@@ -1,10 +1,13 @@
 package Interface;
+import domino.Mao;
+import domino.Mesa;
 import usuario.User;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -27,8 +30,12 @@ public class JogoHVH extends JFrame implements ActionListener {
     private JPanel painelMesa;
     private JPanel painelDados;
     private JPanel painelJogador;
-    private User j1;
-    private User j2;
+    private List<User> jogadores;
+    private List<Mao> maos;
+    private int escolha;
+    private int vez;
+
+    private Mesa jogo;
 
     private GridBagLayout layout;
     private GridBagConstraints constraints;
@@ -38,12 +45,27 @@ public class JogoHVH extends JFrame implements ActionListener {
 
 
     public JogoHVH(User j1, User j2) {
-        this.j1 = j1;
-        this.j2 = j2;
+
+        jogadores = new ArrayList();
+        jogadores.add(j1);
+        jogadores.add(j2);
+
+        jogo = new Mesa();
+
+        maos = new ArrayList();
+        maos.add(new Mao(7));
+        maos.add(new Mao(7));
+        jogo.distribuirPecas(maos);
         criarJanela();
         iniciar();
+        escolha = 0;
+        vez = jogo.vez();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        atualizaJanela();
+        atualizaBotoes();
     }
+
     public void criarJanela(){
 
         layout = new GridBagLayout();
@@ -60,8 +82,8 @@ public class JogoHVH extends JFrame implements ActionListener {
         painelMesa.setBorder(border);
         painelFunc.setBorder(border);
 
-        pecasJ1 = new JLabel("Peças Jogador 1: X");
-        pecasJ2 = new JLabel("Peças Jogador 2: X");
+        pecasJ1 = new JLabel("Peças Jogador 1: " + jogadores.get(0).getNome());
+        pecasJ2 = new JLabel("Peças Jogador 2: " + jogadores.get(1).getNome());
 
         labelPeca = new JLabel("4-2");
         labelMesa = new JLabel("5-1|1-3|3-6|6-8|");
@@ -74,8 +96,12 @@ public class JogoHVH extends JFrame implements ActionListener {
         botaoRight = new JButton("<");
         botaoComprar = new JButton("Comprar");
         botaoComprar.setEnabled(false);
-        botaoPassar = new JButton("Passar");
-        botaoPassar.setEnabled(false);
+        botaoPassar = new JButton("Passar/Jogar");
+        botaoPassar.setEnabled(true);
+        botaoLeft.addActionListener(this);
+        botaoRight.addActionListener(this);
+        botaoComprar.addActionListener(this);
+        botaoPassar.addActionListener(this);
 
         //buttonEmprestar.addActionListener(this);
 
@@ -100,6 +126,23 @@ public class JogoHVH extends JFrame implements ActionListener {
         adicionarComponente(this, painelDados, 1, 0, GridBagConstraints.CENTER, 1, 1, GridBagConstraints.BOTH);
         adicionarComponente(this, painelMesa, 2, 0, GridBagConstraints.CENTER, 1, 1, GridBagConstraints.BOTH);
         adicionarComponente(this, painelJogador, 4, 0, GridBagConstraints.CENTER, 1, 1, GridBagConstraints.BOTH);
+
+        atualizaJanela();
+        atualizaBotoes();
+
+    }
+
+    private void atualizaJanela(){
+
+        if(escolha >= maos.get(vez).size())
+            escolha = maos.get(vez).size() - 1;
+
+        pecasJ1.setText("Peças Jogador 1: " + jogadores.get(0).getNome());
+        pecasJ2.setText("Peças Jogador 2: " + jogadores.get(1).getNome());
+        campoMao.setText("Vez do jogador: " + jogadores.get(vez).getNome());
+        labelPeca.setText(maos.get(vez).olhaPeca(escolha));
+        labelMesa.setText(jogo.toString());
+        labelMao.setText(maos.get(vez).olharMao());
 
 
 
@@ -129,15 +172,83 @@ public class JogoHVH extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
+    public void actionPerformed(ActionEvent actionEvent) {
 
-    private void limparCampos(){
+        if(actionEvent.getSource() == botaoLeft){
+            escolha ++;
+            System.out.println( "ANTES " + escolha);
+        }else{
+            if(actionEvent.getSource() == botaoRight){
+                escolha --;
+            }else{
+                if(actionEvent.getSource() == botaoPassar){
+
+                    if(maos.get(vez).fazJogada( maos.get(vez).copiaPeca(escolha), jogo) == 0){
+
+                        maos.get(vez).pegaPeca(escolha);
+
+                        if(jogo.acabou(maos.get(vez))){
+                            JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!");
+                            jogadores.get(vez).setScore(1);
+                            //FINALIZA O GAME
+                        }else{
+                            if(jogo.taFechado()){
+                                vez = jogo.fechou(maos);
+                                JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!");
+                                jogadores.get(vez).setScore(1);
+                                //FINALIZA O GAME
+                            }
+                        }
+
+                        if(vez < jogadores.size() - 1){
+                            vez ++;
+                        }else{
+                            vez = 0;
+                        }
+
+                        escolha = 0;
+
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Jogada inválida!");
+                    }
+
+                }else{
+                    if(actionEvent.getSource() == botaoComprar){
+                        maos.get(vez).addPeca(jogo.comprar());
+                    }
+                }
+            }
+        }
+
+        atualizaJanela();
+        atualizaBotoes();
 
     }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-       /* if(e.getSource()){
-        }*/
 
-       // limparCampos();
+    private void atualizaBotoes(){
+
+        if(escolha == maos.get(vez).size() - 1){
+            escolha = maos.get(vez).size() - 1;
+            botaoLeft.setEnabled(false);
+        }else{
+            botaoLeft.setEnabled(true);
+        }
+
+        if(escolha <= 0){
+            escolha = 0;
+            botaoRight.setEnabled(false);
+        }else{
+            botaoRight.setEnabled(true);
+        }
+
+        if(maos.get(vez).podeJogar(jogo)){
+            botaoComprar.setEnabled(false);
+        }else{
+            botaoComprar.setEnabled(true);
+        }
+
+        System.out.println("Vez de " + vez +  " Aqui - " + escolha + " Size: " + (maos.get(vez).size() - 1));
+
     }
+
 }

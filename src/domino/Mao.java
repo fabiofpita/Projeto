@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Mao {
 
     private ArrayList<Peca> pecas;
-    private int quantia;
 
     /**
      * Construtor de uma mao para a alocacao de pecas.
@@ -20,9 +19,40 @@ public class Mao {
 
         if(qnt_pecas < 1 || qnt_pecas > 14)
             qnt_pecas = 7;
-        quantia = qnt_pecas;
 
         pecas = new ArrayList<>(qnt_pecas);
+    }
+
+    /**
+     * Metodo verifica se a mao tem alguma peca que possa ser jogada na mesa.
+     * @param mesa Mesa que está acontecendo o jogo.
+     * @return Retorna true se é possivel fazer uma jogada e false, caso contrário.
+     */
+    public boolean podeJogar(Mesa mesa){
+
+        boolean tem = false;
+        int cont = 0;
+
+        if(mesa.size() > 0)
+            while(cont < pecas.size() && !tem){
+
+                if(pecas.get(cont).existeValor(mesa.verificaPontaEsq()))
+                    tem = true;
+                if(pecas.get(cont).existeValor(mesa.verificaPontaDir()))
+                    tem = true;
+
+                cont ++;
+            }
+        else
+            while(cont < pecas.size()){
+
+                if(pecas.get(cont).isBucha())
+                    tem = true;
+
+                cont++;
+            }
+
+        return tem;
     }
 
     /**
@@ -34,7 +64,7 @@ public class Mao {
 
         boolean status = false;
 
-        if(pecas.size() <= quantia && info != null){
+        if(info != null){
             pecas.add(info);
             status = true;
         }
@@ -61,13 +91,6 @@ public class Mao {
     }
 
     /**
-     * @return a quantia de peças que a mão suporta.
-     */
-    public int getQuantia(){
-        return quantia;
-    }
-
-    /**
      * Metodo devolve a peça de uma determinada posicao da mão ou nulo.
      * @param info posição da peça na mão.
      * @return peça de uma posição ou nulo, caso a posição seja inexistente.
@@ -83,9 +106,40 @@ public class Mao {
     }
 
     /**
+     * Metodo devolve uma copia da peça de uma determinada posicao da mão ou nulo.
+     * @param info posição da peça na mão.
+     * @return peça de uma posição ou nulo, caso a posição seja inexistente.
+     */
+    public String olhaPeca(int info){
+
+        String devolv = "";
+
+        if(info >= 0 && info < pecas.size())
+            devolv +="[" + pecas.get(info).getEsquerdo() + "|" + pecas.get(info).getDireito() + "]";
+
+        return devolv;
+    }
+
+    /**
+     * Metodo devolve uma copia da peça de uma determinada posicao da mão ou nulo.
+     * @param info posição da peça na mão.
+     * @return peça de uma posição ou nulo, caso a posição seja inexistente.
+     */
+    public Peca copiaPeca(int info){
+
+        Peca devolv = null;
+
+        if(info >= 0 && info < pecas.size())
+            devolv = pecas.get(info);
+
+        return devolv;
+    }
+
+    /**
      * @return Retorna a quantia de pecas na mao.
      */
     public int size(){
+
         return pecas.size();
     }
 
@@ -114,46 +168,54 @@ public class Mao {
      */
 
     public int fazJogada(Peca peca, Mesa mesa){
-        int retorno = 0;
+
+        int retorno = -1;
+
         Peca maior;
+
         if(mesa.isEmpty()){
             if (peca.isBucha()){
                 maior = peca;
-                for (int i=0; i<pecas.size(); i++){
-                    if (maior.pesoPeça()<pecas.get(i).pesoPeça()){
+                for (int i=0; i < pecas.size(); i++){
+                    if (maior.pesoPeça() < pecas.get(i).pesoPeça() && pecas.get(i).isBucha()){
                         retorno = 1;
                     }
                 }
 
-                if (retorno == 0){
+                if (retorno == -1){
                     mesa.addPecaNaMesa(peca);
+                    retorno = 0;
                 }
-            }else{
-                maior = peca;
-                for (int i=0; i<pecas.size(); i++){
-                    if (maior.pesoPeça()<pecas.get(i).pesoPeça()){
-                        retorno =1;
-                    }
-                }
+            }//else{
+            //    maior = peca;
+            //    for (int i=0; i<pecas.size(); i++){
+            //        if (maior.pesoPeça()<pecas.get(i).pesoPeça()){
+            //            retorno =1;
+            //        }
+            //    }
 
-                if(retorno==0){
-                    mesa.addPecaNaMesa(peca);
-                }
-            }
+            //    if(retorno==0){
+            //        mesa.addPecaNaMesa(peca);
+            //    }
+            //}
         }else{
             if (peca.getDireito() == mesa.verificaPontaDir()){
-                peca.arrumarPeca(peca.getDireito(), peca.getEsquerdo());
-                mesa.addPecaNaMesa(peca,0);
+                peca.arrumarPeca(1, peca.getEsquerdo());
+                mesa.addPecaNaMesa(peca);
+                retorno = 0;
             }else{
                 if (peca.getEsquerdo() == mesa.verificaPontaDir()){
-                    mesa.addPecaNaMesa(peca,0);
+                    mesa.addPecaNaMesa(peca);
+                    retorno = 0;
                 }else{
                     if(peca.getDireito() == mesa.verificaPontaEsq()){
-                        mesa.addPecaNaMesa(peca);
+                        mesa.addPecaNaMesa(peca, 0);
+                        retorno = 0;
                     }else{
-                        if(peca.getEsquerdo() == mesa.verificaPontaDir()){
-                            peca.arrumarPeca(peca.getDireito(), peca.getEsquerdo());
-                            mesa.addPecaNaMesa(peca);
+                        if(peca.getEsquerdo() == mesa.verificaPontaEsq()){
+                            peca.arrumarPeca(-1, peca.getDireito());
+                            mesa.addPecaNaMesa(peca, 0);
+                            retorno = 0;
                         }else{
                             retorno = 2;
                         }

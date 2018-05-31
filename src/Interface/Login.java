@@ -77,6 +77,7 @@ public class Login {
 
       }
   }
+
   public boolean logaUser(JTextField fieldEmail, JPasswordField fieldSenha){
         boolean deuCerto = false;
         String email = fieldEmail.getText();
