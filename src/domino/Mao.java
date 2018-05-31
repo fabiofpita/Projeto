@@ -170,7 +170,7 @@ public class Mao {
     public int fazJogada(Peca peca, Mesa mesa){
 
         int retorno = -1;
-
+        int escolha;
         Peca maior;
 
         if(mesa.isEmpty()){
@@ -198,25 +198,111 @@ public class Mao {
             //        mesa.addPecaNaMesa(peca);
             //    }
             //}
-        }else{
-            if (peca.getDireito() == mesa.verificaPontaDir()){
-                peca.arrumarPeca(1, peca.getEsquerdo());
-                mesa.addPecaNaMesa(peca);
-                retorno = 0;
-            }else{
-                if (peca.getEsquerdo() == mesa.verificaPontaDir()){
-                    mesa.addPecaNaMesa(peca);
-                    retorno = 0;
-                }else{
-                    if(peca.getDireito() == mesa.verificaPontaEsq()){
+        }else {
+            if ((peca.getEsquerdo() == mesa.verificaPontaEsq() && peca.getEsquerdo() == mesa.verificaPontaDir()) ||
+                    (peca.getDireito() == mesa.verificaPontaEsq() && peca.getDireito() == mesa.verificaPontaDir())
+                    || (peca.getDireito() == mesa.verificaPontaDir() && peca.getDireito() == mesa.verificaPontaEsq()) ||
+                    (peca.getEsquerdo() == mesa.verificaPontaDir() && peca.getEsquerdo() == mesa.verificaPontaEsq())) {
+                do {
+                    escolha = Integer.parseInt(JOptionPane.showInputDialog(null, "Escolha uma ponta para colocar a peça:\n" +
+                            "0-Ponta da esquerda\n1-Ponta da direita"));
+                    if (escolha != 0 && escolha != 1) {
+                        JOptionPane.showMessageDialog(null, "Insira uma ponta válida!", "Dominó", JOptionPane.ERROR_MESSAGE);
+                    }
+                } while (escolha != 0 && escolha != 1);
+
+                if (escolha == 0) {
+                    if (peca.getDireito() == mesa.verificaPontaEsq()) {
                         mesa.addPecaNaMesa(peca, 0);
                         retorno = 0;
-                    }else{
-                        if(peca.getEsquerdo() == mesa.verificaPontaEsq()){
+                    } else {
+                        if (peca.getEsquerdo() == mesa.verificaPontaEsq()) {
                             peca.arrumarPeca(-1, peca.getDireito());
                             mesa.addPecaNaMesa(peca, 0);
                             retorno = 0;
-                        }else{
+                        }
+                    }
+                } else {
+                    if (peca.getEsquerdo() == mesa.verificaPontaDir()) {
+                        mesa.addPecaNaMesa(peca);
+                    } else {
+                        if (peca.getDireito() == mesa.verificaPontaDir()) {
+                            peca.arrumarPeca(1, peca.getEsquerdo());
+                            mesa.addPecaNaMesa(peca);
+                            retorno = 0;
+                        }
+                    }
+                }
+            }else{
+
+                if (peca.getDireito() == mesa.verificaPontaDir()) {
+                    peca.arrumarPeca(1, peca.getEsquerdo());
+                    mesa.addPecaNaMesa(peca);
+                    retorno = 0;
+                } else {
+                    if (peca.getEsquerdo() == mesa.verificaPontaDir()) {
+                        mesa.addPecaNaMesa(peca);
+                        retorno = 0;
+                    } else {
+                        if (peca.getDireito() == mesa.verificaPontaEsq()) {
+                            mesa.addPecaNaMesa(peca, 0);
+                            retorno = 0;
+                        } else {
+                            if (peca.getEsquerdo() == mesa.verificaPontaEsq()) {
+                                peca.arrumarPeca(-1, peca.getDireito());
+                                mesa.addPecaNaMesa(peca, 0);
+                                retorno = 0;
+                            } else {
+                                retorno = 2;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return retorno;
+
+    }
+
+    public int fazJogadaPC(Peca peca, Mesa mesa){
+
+        int retorno = -1;
+        Peca maior;
+
+        if(mesa.isEmpty()){
+            if (peca.isBucha()){
+                maior = peca;
+                for (int i=0; i < pecas.size(); i++){
+                    if (maior.pesoPeça() < pecas.get(i).pesoPeça() && pecas.get(i).isBucha()){
+                        retorno = 1;
+                    }
+                }
+
+                if (retorno == -1){
+                    mesa.addPecaNaMesa(peca);
+                    retorno = 0;
+                }
+            }
+        }else {
+            if (peca.getDireito() == mesa.verificaPontaDir()) {
+                peca.arrumarPeca(1, peca.getEsquerdo());
+                mesa.addPecaNaMesa(peca);
+                retorno = 0;
+            } else {
+                if (peca.getEsquerdo() == mesa.verificaPontaDir()) {
+                    mesa.addPecaNaMesa(peca);
+                    retorno = 0;
+                } else {
+                    if (peca.getDireito() == mesa.verificaPontaEsq()) {
+                        mesa.addPecaNaMesa(peca, 0);
+                        retorno = 0;
+                    } else {
+                        if (peca.getEsquerdo() == mesa.verificaPontaEsq()) {
+                            peca.arrumarPeca(-1, peca.getDireito());
+                            mesa.addPecaNaMesa(peca, 0);
+                            retorno = 0;
+                        } else {
                             retorno = 2;
                         }
                     }
