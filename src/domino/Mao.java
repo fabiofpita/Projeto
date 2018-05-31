@@ -33,7 +33,7 @@ public class Mao {
         boolean tem = false;
         int cont = 0;
 
-        if(mesa.size() > 0);
+        if(mesa.size() > 0)
             while(cont < pecas.size() && !tem){
 
                 if(pecas.get(cont).existeValor(mesa.verificaPontaEsq()))
@@ -42,6 +42,14 @@ public class Mao {
                     tem = true;
 
                 cont ++;
+            }
+        else
+            while(cont < pecas.size()){
+
+                if(pecas.get(cont).isBucha())
+                    tem = true;
+
+                cont++;
             }
 
         return tem;

@@ -60,6 +60,10 @@ public class JogoHVH extends JFrame implements ActionListener {
         iniciar();
         escolha = 0;
         vez = jogo.vez();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        atualizaJanela();
+        atualizaBotoes();
     }
 
     public void criarJanela(){
@@ -168,12 +172,6 @@ public class JogoHVH extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
-
-    private void limparCampos(){
-
-    }
-
-
     public void actionPerformed(ActionEvent actionEvent) {
 
         if(actionEvent.getSource() == botaoLeft){
@@ -184,6 +182,7 @@ public class JogoHVH extends JFrame implements ActionListener {
                 escolha --;
             }else{
                 if(actionEvent.getSource() == botaoPassar){
+
                     if(maos.get(vez).fazJogada( maos.get(vez).copiaPeca(escolha), jogo) == 0){
 
                         maos.get(vez).pegaPeca(escolha);
@@ -229,12 +228,14 @@ public class JogoHVH extends JFrame implements ActionListener {
     private void atualizaBotoes(){
 
         if(escolha == maos.get(vez).size() - 1){
+            escolha = maos.get(vez).size() - 1;
             botaoLeft.setEnabled(false);
         }else{
             botaoLeft.setEnabled(true);
         }
 
-        if(escolha == 0){
+        if(escolha <= 0){
+            escolha = 0;
             botaoRight.setEnabled(false);
         }else{
             botaoRight.setEnabled(true);
