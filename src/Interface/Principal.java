@@ -28,7 +28,7 @@ public class Principal extends JFrame {
         this.barra = new JMenuBar();
         setJMenuBar(barra);
         this.itemCadastro = new JMenuItem("Cadastrar usuario");
-        this.itemLogin = new JMenuItem("Login");
+        this.itemLogin = new JMenuItem("2 jogadores");
         this.itemJogar = new JMenuItem("Jogar");
         this.itemSair = new JMenuItem("Sair");
 

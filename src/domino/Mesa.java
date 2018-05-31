@@ -25,16 +25,27 @@ public class Mesa {
         comeca = 0;
     }
 
+    /**
+     * Metodo faz a compra de uma peça.
+     * @return Uma peça da mesa.
+     */
+    public Peca comprar(){
+        Peca compra = null;
+        Random dealer = new Random();
 
+        if(this.compra.size() > 0)
+            compra = this.compra.remove(dealer.nextInt(this.compra.size()));
+
+        return compra;
+    }
 
     /**
      * Metodo distribui as peças aleatoriamente para um jogador.
      * @param jogadores List de jogadores que receberão as peças.
      * @return true se foi distribuido as peças corretamente e false, caso contrário.
      */
-    public boolean distribuirPecas(List jogadores){
+    public boolean distribuirPecas(List<Mao> jogadores){
         boolean deu = false;
-        Random diller = new Random();
         int i = 0;
         int roda = 0;
         Mao mao;
@@ -45,11 +56,11 @@ public class Mesa {
 
             while(roda < jogadores.size()) {
 
-                mao = (Mao)jogadores.get(roda);
+                mao = jogadores.get(roda);
 
 
-                while (i < mao.getQuantia()) {
-                    peca = compra.remove(diller.nextInt(compra.size()));
+                while (i < 7) {
+                    peca = comprar();
                     mao.addPeca(peca);
                     i++;
 
@@ -66,8 +77,15 @@ public class Mesa {
             }
             deu = true;
         }
-        System.out.println("Olha ai " + comeca);
+
         return deu;
+    }
+
+    /**
+     * @return Devolve a quantia de peças na mesa.
+     */
+    public int size(){
+        return jogo.size();
     }
 
     /**
@@ -105,10 +123,10 @@ public class Mesa {
         String txt = "";
         int i = 0;
 
-        while(i < compra.size()){
+        while(i < jogo.size()){
 
-            if(compra.get(i) != null)
-                txt += compra.get(i).toString();
+            if(jogo.get(i) != null)
+                txt += jogo.get(i).toString();
 
             i++;
         }
@@ -117,50 +135,22 @@ public class Mesa {
     }
 
     /**
-     * Metodo desenvolve o jogo e da a vez aos jogadores.
-     * @return retorna a casa que o vencedor está no list.
+     * @return o jogador da vez.
      */
-    public int play(List<Mao> mao){
-
-        int vencedor = - 1;
-        boolean acabou = false;
-
-        while(!acabou){
-
-         //   mao.get(comeca).jogar; // Dou a jogada para o primeiro a jogar
-
-
-            if(acabou(mao, comeca)){
-                vencedor = comeca;
-                acabou = true;
-            }else{
-                if(taFechado()){
-                    vencedor = fechou(mao);
-                    acabou = true;
-                }
-            }
-
-            if(comeca == mao.size() - 1) {
-                comeca = 0;
-            }else{
-                comeca ++;
-            }
-        }
-
-        return vencedor;
+    public int vez(){
+        return comeca;
     }
 
     /**
      * Verifica se as peças do jogador terminaram.
      * @param info Lista de mãos.
-     * @param posicao Posição da mão a ser processada.
      * @return True se o jogador não tem mais peças e false caso contrário.
      */
-    private boolean acabou(List<Mao> info, int posicao){
+    public boolean acabou(Mao info){
 
         boolean retorno = false;
 
-        if(info.get(posicao).size() == 0)
+        if(info.size() == 0)
             retorno = true;
 
         return retorno;
@@ -171,7 +161,7 @@ public class Mesa {
      * @param info Lista de mãos.
      * @return Um inteiro com a posição da mão ganhadora.
      */
-    private int fechou(List<Mao> info){
+    public int fechou(List<Mao> info){
 
         int vencedor = 0;
         int compara = 0, pontos;
@@ -197,7 +187,7 @@ public class Mesa {
      * Metodo verifica se o jogo está fechado.
      * @return True caso esteja fechado e Fals, caso contrario.
      */
-    private boolean taFechado(){
+    public boolean taFechado(){
         int pecas = 1, valor;
         int caminhando = 1;
         boolean retorno = false;
@@ -238,13 +228,12 @@ public class Mesa {
 
     /**
      * Metodo que verifica o valor da ponta direita da mesa.
-     * @return valor da ponta.
+     * @return valor da ponta ou -1, caso ela não exista.
      */
     public int verificaPontaDir(){
-        int retorno;
-        if (jogo.size()==1){
-           retorno = jogo.get(0).getDireito();
-        }else{
+        int retorno = -1;
+
+        if (jogo.size() > 0){
             retorno = jogo.get(jogo.size()-1).getDireito();
         }
 
@@ -253,10 +242,16 @@ public class Mesa {
 
     /**
      * Metodo que verifica o valor da ponta esquerda da mesa.
-     * @return valor da ponta.
+     * @return valor da ponta ou -1, caso ela não exista.
      */
     public int verificaPontaEsq(){
-        return jogo.get(0).getEsquerdo();
+
+        int resp = -1;
+
+        if(jogo.size() > 0)
+            resp = jogo.get(0).getEsquerdo();
+
+        return resp;
     }
 
     /**
@@ -265,7 +260,7 @@ public class Mesa {
      * @param index posição inicial do array (0)
      */
     public void addPecaNaMesa(Peca peca, int index){
-        jogo.add(0,peca);
+        jogo.add(0, peca);
     }
 
     /**
