@@ -69,6 +69,7 @@ public class JogoHVH extends JFrame implements ActionListener {
     /**
      * Este método serve para instanciar os atributos que compoem a tela vizual.
      */
+
     public void criarJanela(){
 
         layout = new GridBagLayout();
@@ -135,9 +136,11 @@ public class JogoHVH extends JFrame implements ActionListener {
 
     }
 
+
     /**
      * Atualiza os componentes conforme as jogadas
      */
+
     private void atualizaJanela(){
 
         if(escolha >= maos.get(vez).size())
@@ -197,6 +200,7 @@ public class JogoHVH extends JFrame implements ActionListener {
      * Eventos dos botões
      * @param actionEvent
      */
+
     public void actionPerformed(ActionEvent actionEvent) {
 
         if(actionEvent.getSource() == botaoLeft){
@@ -216,14 +220,19 @@ public class JogoHVH extends JFrame implements ActionListener {
                             JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!");
                             jogadores.get(vez).setScore(1);
                             //FINALIZA O GAME
+
                             dispose();
+
                         }else{
                             if(jogo.taFechado()){
                                 vez = jogo.fechou(maos);
                                 JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!");
                                 jogadores.get(vez).setScore(1);
                                 //FINALIZA O GAME
+
                                 dispose();
+
+
                             }
                         }
 
@@ -252,9 +261,11 @@ public class JogoHVH extends JFrame implements ActionListener {
 
     }
 
+
     /**
      * atualiza os textos dos botões
      */
+
     private void atualizaBotoes(){
 
         if(escolha == maos.get(vez).size() - 1){

@@ -97,4 +97,5 @@ public class Principal extends JFrame{
     public void removeInteral(){
 
     }
+
 }
