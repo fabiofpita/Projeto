@@ -31,6 +31,13 @@ public class Main {
 /*
         Mao jogador1 = new Mao(7);
         Mao jogador2 = new Mao(7);
+        boolean confirm = false;
+        int escolhas;
+        int tentativas;
+        String email;
+        String senha;
+        //                                              TESTE MESA
+
 
         boolean confirm = false;
 
@@ -42,12 +49,23 @@ public class Main {
 
         //                                              TESTE MESA
 
+
         System.out.println(mesa.toString());
         mesa.distribuirPecas(jogador1);
         mesa.distribuirPecas(jogador2);
         System.out.println("Mesa - " + mesa.toString());
         System.out.println("Mão jogador 1: " + jogador1.olharMao());
         System.out.println("Mão jogador 2: " + jogador2.olharMao());
+
+/*
+        do{
+            escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - Cadastro\n2 - Login\n0 - Sair", TITULO, JOptionPane.INFORMATION_MESSAGE));
+            while(escolhas == 1){
+                email = JOptionPane.showInputDialog(null, "Digite o e-mail a ser cadastrado:", TITULO, JOptionPane.INFORMATION_MESSAGE);
+                if(email != null)
+                    if(cadastro.autenticarEmail(email)){
+                        if(cadastro.procuraEmail(email) == null){
+
 
 /*
         do{
@@ -63,6 +81,7 @@ public class Main {
                     if(cadastro.autenticarEmail(email)){
 
                         if(cadastro.procuraEmail(email) == null){
+
 
                             usuario = main.readUsuario(email);
                             if(cadastro.newCadastro(usuario))
@@ -80,16 +99,15 @@ public class Main {
                 escolhas = -1;
             }
 
-
-
             while(escolhas == 2){
 
                 tentativas = 0;
                 confirm = false;
                 email = JOptionPane.showInputDialog(null, "Digite o e-mail para login:", TITULO, JOptionPane.INFORMATION_MESSAGE);
                 usuario = cadastro.procuraEmail(email);
-
+                
                 if(usuario != null){
+
 
                     if(!usuario.isBloqueado(System.currentTimeMillis())){
                         while (tentativas < 3 && !confirm) {
