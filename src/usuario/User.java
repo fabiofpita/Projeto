@@ -112,12 +112,27 @@ public abstract class User implements Comparable<User>{
         return retorno;
     }
 
+    /**
+     * obtem a quantidade de tentativas restantes para login do usuario
+     * @return
+     */
     public abstract int getTentativas();
 
+    /**
+     * Retira uma das tentativas do usuario.
+     */
     public abstract void consomeTentativa();
 
+    /**
+     * Troca o estado do usuario
+     * @param estado true para online e false para offilne
+     */
     public abstract void setOnli(boolean estado);
 
+    /**
+     * Confere se o usuário está logado no sistema.
+     * @return
+     */
     public abstract boolean isOnli();
 
 }

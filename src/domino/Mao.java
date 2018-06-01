@@ -94,6 +94,15 @@ public class Mao {
      * Metodo devolve a peça de uma determinada posicao da mão ou nulo.
      * @param info posição da peça na mão.
      * @return peça de uma posição ou nulo, caso a posição seja inexistente.
+
+     */
+    public Peca pegaPeca(int info){
+
+        Peca devolv = null;
+
+        if(info >= 0 && info < pecas.size())
+            devolv = pecas.remove(info);
+
      */
     public Peca pegaPeca(int info){
 
@@ -117,6 +126,7 @@ public class Mao {
         if(info >= 0 && info < pecas.size())
             devolv +="[" + pecas.get(info).getEsquerdo() + "|" + pecas.get(info).getDireito() + "]";
 
+
         return devolv;
     }
 
@@ -125,6 +135,23 @@ public class Mao {
      * @param info posição da peça na mão.
      * @return peça de uma posição ou nulo, caso a posição seja inexistente.
      */
+
+    public String olhaPeca(int info){
+
+        String devolv = "";
+
+        if(info >= 0 && info < pecas.size())
+            devolv +="[" + pecas.get(info).getEsquerdo() + "|" + pecas.get(info).getDireito() + "]";
+
+        return devolv;
+    }
+
+    /**
+     * Metodo devolve uma copia da peça de uma determinada posicao da mão ou nulo.
+     * @param info posição da peça na mão.
+     * @return peça de uma posição ou nulo, caso a posição seja inexistente.
+     */
+
     public Peca copiaPeca(int info){
 
         Peca devolv = null;
@@ -170,7 +197,9 @@ public class Mao {
     public int fazJogada(Peca peca, Mesa mesa){
 
         int retorno = -1;
+
         int escolha;
+
         Peca maior;
 
         if(mesa.isEmpty()){
@@ -198,6 +227,9 @@ public class Mao {
             //        mesa.addPecaNaMesa(peca);
             //    }
             //}
+
+        }else{
+
         }else {
             if ((peca.getEsquerdo() == mesa.verificaPontaEsq() && peca.getEsquerdo() == mesa.verificaPontaDir()) ||
                     (peca.getDireito() == mesa.verificaPontaEsq() && peca.getDireito() == mesa.verificaPontaDir())
@@ -235,6 +267,7 @@ public class Mao {
                 }
             }else{
 
+
                 if (peca.getDireito() == mesa.verificaPontaDir()) {
                     peca.arrumarPeca(1, peca.getEsquerdo());
                     mesa.addPecaNaMesa(peca);
@@ -258,6 +291,7 @@ public class Mao {
                         }
                     }
                 }
+
             }
         }
 
@@ -308,6 +342,7 @@ public class Mao {
                     }
                 }
             }
+
         }
 
         return retorno;

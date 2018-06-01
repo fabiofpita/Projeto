@@ -66,6 +66,10 @@ public class JogoHVH extends JFrame implements ActionListener {
         atualizaBotoes();
     }
 
+    /**
+     * Este método serve para instanciar os atributos que compoem a tela vizual.
+     */
+
     public void criarJanela(){
 
         layout = new GridBagLayout();
@@ -132,6 +136,11 @@ public class JogoHVH extends JFrame implements ActionListener {
 
     }
 
+
+    /**
+     * Atualiza os componentes conforme as jogadas
+     */
+
     private void atualizaJanela(){
 
         if(escolha >= maos.get(vez).size())
@@ -148,6 +157,17 @@ public class JogoHVH extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Adiciona componentes em forma ordenada no painel conforme uma estrutura de plano cartesiano.
+     * @param panelG painel "pai" a ser inserido.
+     * @param component componente a ser inserido no painel
+     * @param y eixo y no plano
+     * @param x representa o eixo x no plano.
+     * @param pos representa a posicao
+     * @param cols numero de colunas a ser ocupado
+     * @param lins numero de linhas a ser ocupado
+     * @param preenche a posicao a ser preenchida.
+     */
     private void adicionarComponente(Container panelG, JComponent component, int y, int x, int pos, int cols, int lins, int preenche){
         constraints.gridy = y;
         constraints.gridx = x;
@@ -165,12 +185,21 @@ public class JogoHVH extends JFrame implements ActionListener {
         layout.setConstraints(component, constraints);
         panelG.add(component);
     }
+
+    /**
+     * iniciar os parametros para o jframe
+     */
     private void iniciar(){
         this.pack();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         this.setVisible(true);
     }
+
+    /**
+     * Eventos dos botões
+     * @param actionEvent
+     */
 
     public void actionPerformed(ActionEvent actionEvent) {
 
@@ -191,12 +220,19 @@ public class JogoHVH extends JFrame implements ActionListener {
                             JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!");
                             jogadores.get(vez).setScore(1);
                             //FINALIZA O GAME
+
+                            dispose();
+
                         }else{
                             if(jogo.taFechado()){
                                 vez = jogo.fechou(maos);
                                 JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!");
                                 jogadores.get(vez).setScore(1);
                                 //FINALIZA O GAME
+
+                                dispose();
+
+
                             }
                         }
 
@@ -224,6 +260,11 @@ public class JogoHVH extends JFrame implements ActionListener {
         atualizaBotoes();
 
     }
+
+
+    /**
+     * atualiza os textos dos botões
+     */
 
     private void atualizaBotoes(){
 

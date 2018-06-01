@@ -48,6 +48,21 @@ public class Cadastro {
     }
 
     /**
+     * desloga o usuario no banco;
+     * @param info email
+     * @return true caso de certo e false caso não
+     */
+    public boolean logoutUser(String info){
+        boolean deuCerto = false;
+        User user = banco.getUser(info);
+        if(user != null){
+            user.setOnli(false);
+            deuCerto = true;
+        }
+        return deuCerto;
+    }
+
+    /**
      *  O metodo autenticarEmail recebe uma string e confere se conteudo digitado tem um formato de e-mail valido.
      *
      * @param info String que vai ser conferida.
