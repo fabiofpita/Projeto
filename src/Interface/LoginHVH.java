@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Login {
+public class LoginHVH {
 
 
     private JLabel labelEmail;
@@ -28,7 +28,7 @@ public class Login {
     private boolean loginJ1;
     private boolean loginJ2;
 
-    public Login(Cadastro banco){
+    public LoginHVH(Cadastro banco){
         this.banco = banco;
         this.loginJ1 = false;
         this.loginJ2 = false;

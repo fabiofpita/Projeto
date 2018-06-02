@@ -59,7 +59,7 @@ public class Main {
 
 /*
         do{
-            escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - Cadastro\n2 - Login\n0 - Sair", TITULO, JOptionPane.INFORMATION_MESSAGE));
+            escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - Cadastro\n2 - LoginHVH\n0 - Sair", TITULO, JOptionPane.INFORMATION_MESSAGE));
             while(escolhas == 1){
                 email = JOptionPane.showInputDialog(null, "Digite o e-mail a ser cadastrado:", TITULO, JOptionPane.INFORMATION_MESSAGE);
                 if(email != null)
@@ -70,7 +70,7 @@ public class Main {
 /*
         do{
 
-            escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - Cadastro\n2 - Login\n0 - Sair", TITULO, JOptionPane.INFORMATION_MESSAGE));
+            escolhas = Integer.parseInt(JOptionPane.showInputDialog(null, "1 - Cadastro\n2 - LoginHVH\n0 - Sair", TITULO, JOptionPane.INFORMATION_MESSAGE));
 
 
 
