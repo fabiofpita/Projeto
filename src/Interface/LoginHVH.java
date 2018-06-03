@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 
 public class LoginHVH {
 
-
     private JLabel labelEmail;
     private JTextField fieldEmail1;
     private JPasswordField fieldSenha1;

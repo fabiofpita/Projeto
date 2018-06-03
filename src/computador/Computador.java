@@ -1,9 +1,10 @@
 package computador;
 
+
 /**
  * Classe que representa um objeto do tipo computador.
  */
-public class Computador{
+public class Computador {
 
     private String nome;
 

@@ -270,6 +270,18 @@ public class Mesa {
     public void addPecaNaMesa (Peca peca){
         jogo.add(peca);
     }
+
+    /**
+     * @return Retorna true caso tenha peças para comprar e false, caso contrario.
+     */
+    public boolean temCompra(){
+        boolean tem = false;
+
+        if(compra.size() > 0)
+            tem = true;
+
+        return tem;
+    }
 }
 
 
