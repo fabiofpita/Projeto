@@ -143,13 +143,16 @@ public class Mao {
         return pecas.size();
     }
 
-
+    /**
+     * @return Retorna a quantia de pontos que a mão tem.
+     */
     public int pontoTotal(){
 
         int pontos = 0, anda = 0;
 
         while(anda < size()){
             pontos += pecas.get(anda).pesoPeça();
+            anda ++;
         }
 
         return pontos;
@@ -199,13 +202,9 @@ public class Mao {
             //    }
             //}
         }else {
-            if ((peca.getEsquerdo() == mesa.verificaPontaEsq() && peca.getEsquerdo() == mesa.verificaPontaDir()) ||
-                    (peca.getDireito() == mesa.verificaPontaEsq() && peca.getDireito() == mesa.verificaPontaDir())
-                    || (peca.getDireito() == mesa.verificaPontaDir() && peca.getDireito() == mesa.verificaPontaEsq()) ||
-                    (peca.getEsquerdo() == mesa.verificaPontaDir() && peca.getEsquerdo() == mesa.verificaPontaEsq())) {
+            if ((peca.getEsquerdo() == mesa.verificaPontaEsq() && peca.getDireito() == mesa.verificaPontaDir()) || (peca.getDireito() == mesa.verificaPontaEsq() && peca.getEsquerdo() == mesa.verificaPontaDir())) {
                 do {
-                    escolha = Integer.parseInt(JOptionPane.showInputDialog(null, "Escolha uma ponta para colocar a peça:\n" +
-                            "0-Ponta da esquerda\n1-Ponta da direita"));
+                    escolha = Integer.parseInt(JOptionPane.showInputDialog(null, "Escolha uma ponta para colocar a peça:\n" + "0-Ponta da esquerda\n1-Ponta da direita"));
                     if (escolha != 0 && escolha != 1) {
                         JOptionPane.showMessageDialog(null, "Insira uma ponta válida!", "Dominó", JOptionPane.ERROR_MESSAGE);
                     }
@@ -225,6 +224,7 @@ public class Mao {
                 } else {
                     if (peca.getEsquerdo() == mesa.verificaPontaDir()) {
                         mesa.addPecaNaMesa(peca);
+                        retorno = 0;
                     } else {
                         if (peca.getDireito() == mesa.verificaPontaDir()) {
                             peca.arrumarPeca(1, peca.getEsquerdo());
@@ -233,8 +233,7 @@ public class Mao {
                         }
                     }
                 }
-            }else{
-
+            } else {
                 if (peca.getDireito() == mesa.verificaPontaDir()) {
                     peca.arrumarPeca(1, peca.getEsquerdo());
                     mesa.addPecaNaMesa(peca);
@@ -260,9 +259,46 @@ public class Mao {
                 }
             }
         }
-
         return retorno;
 
+    }
+
+    /**
+     * Metodo que executa uma jogada.
+     * @param peca Peca a ser colocada na mesa.
+     * @param ponta Ponta que o jogador deseja coloca-la (0 = ponta esquerda, 1 = ponta direita)
+     * @param mesa Mesa do jogo;
+     * @return 0 - Caso a jogada tenha sido executada com sucesso;
+     */
+    public int fazJogada(Peca peca, int ponta, Mesa mesa){
+
+        int retorno= -1;
+
+        if(ponta == 0){
+            if (peca.getDireito() == mesa.verificaPontaEsq()) {
+                mesa.addPecaNaMesa(peca, 0);
+                retorno = 0;
+            } else {
+                if (peca.getEsquerdo() == mesa.verificaPontaEsq()) {
+                    peca.arrumarPeca(-1, peca.getDireito());
+                    mesa.addPecaNaMesa(peca, 0);
+                    retorno = 0;
+                }
+            }
+        }else{
+            if (peca.getDireito() == mesa.verificaPontaDir()) {
+                peca.arrumarPeca(1, peca.getEsquerdo());
+                mesa.addPecaNaMesa(peca);
+                retorno = 0;
+            } else {
+                if (peca.getEsquerdo() == mesa.verificaPontaDir()) {
+                    mesa.addPecaNaMesa(peca);
+                    retorno = 0;
+                }
+            }
+        }
+
+        return retorno;
     }
 
     public int fazJogadaPC(Peca peca, Mesa mesa){
@@ -284,72 +320,48 @@ public class Mao {
                     retorno = 0;
                 }
             }
-        }else {
+        } else {
             if (peca.getDireito() == mesa.verificaPontaDir()) {
                 peca.arrumarPeca(1, peca.getEsquerdo());
                 mesa.addPecaNaMesa(peca);
                 retorno = 0;
-            } else {
+            }else{
                 if (peca.getEsquerdo() == mesa.verificaPontaDir()) {
                     mesa.addPecaNaMesa(peca);
                     retorno = 0;
-                } else {
+                }else{
                     if (peca.getDireito() == mesa.verificaPontaEsq()) {
                         mesa.addPecaNaMesa(peca, 0);
                         retorno = 0;
-                    } else {
+                    }else{
                         if (peca.getEsquerdo() == mesa.verificaPontaEsq()) {
                             peca.arrumarPeca(-1, peca.getDireito());
                             mesa.addPecaNaMesa(peca, 0);
                             retorno = 0;
-                        } else {
+                        }else{
                             retorno = 2;
                         }
                     }
                 }
             }
         }
-
         return retorno;
-
     }
 
     /**
-     * Metodo que executa uma jogada.
-     * @param peca Peca a ser colocada na mesa.
-     * @param ponta Ponta que o jogador deseja coloca-la (0 = ponta esquerda, 1 = ponta direita)
-     * @param mesa Mesa do jogo;
-     * @return 0 - Caso a jogada tenha sido executada com sucesso;
+     * Metodo retorna a propria classe.
+     * @return Retorna a mão em questão.
      */
-    public int fazJogada(Peca peca, int ponta, Mesa mesa){
-        int retorno=0;
-
-        if (ponta == 0){
-            if (peca.getEsquerdo()== mesa.verificaPontaEsq()){
-                peca.arrumarPeca(peca.getDireito(), peca.getEsquerdo());
-                mesa.addPecaNaMesa(peca,0);
-            }else{
-                if (peca.getDireito() == mesa.verificaPontaEsq()){
-                    mesa.addPecaNaMesa(peca,0);
-                }
-            }
-        }else{
-            if (peca.getDireito()== mesa.verificaPontaDir()){
-                peca.arrumarPeca(peca.getDireito(), peca.getEsquerdo());
-                mesa.addPecaNaMesa(peca);
-            }else{
-                if (peca.getEsquerdo() == mesa.verificaPontaDir()){
-                    mesa.addPecaNaMesa(peca);
-                }
-            }
-        }
-
-        return retorno;
+    public Mao getMao(){
+        return this;
     }
 
-    public void jogar(){
-
-            //this.fazJogada(//metodo que busca peça selecionada da interface, Mesa mesa);
+    /**
+     * Remove uma peca da mao.
+     * @param peca Peca a ser removida.
+     */
+    public void soltaPeca(Peca peca){
+        pecas.remove(peca);
     }
 }
 

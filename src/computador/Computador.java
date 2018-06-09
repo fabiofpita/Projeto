@@ -1,17 +1,18 @@
 package computador;
 
+
 /**
  * Classe que representa um objeto do tipo computador.
  */
-public abstract class Computador{
-    private static int i = 0;
+public class Computador {
+
     private String nome;
 
     /**
      * Construtor de um objeto do tipo computador.
      */
     public Computador(){
-        nome = "Computador "+ i++;
+        nome = "Caio";
     }
 
     /**

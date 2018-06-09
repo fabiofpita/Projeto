@@ -1,23 +1,23 @@
 package Interface;
+
+import computador.PCEasy;
 import domino.Mao;
 import domino.Mesa;
 import usuario.User;
 
+import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
-import javax.swing.border.Border;
 
-
-public class JogoHVH extends JFrame implements ActionListener {
+public class JogoHVB extends JFrame implements ActionListener {
 
     private JLabel labelPeca;
     private JLabel labelMesa;
     private JLabel pecasJ1;
-    private JLabel pecasJ2;
     private JLabel labelJogador;
     private JLabel campoMesa;
     private JLabel labelMao;
@@ -30,46 +30,50 @@ public class JogoHVH extends JFrame implements ActionListener {
     private JPanel painelMesa;
     private JPanel painelDados;
     private JPanel painelJogador;
-    private List<User> jogadores;
+    private User jogador;
     private List<Mao> maos;
     private int escolha;
     private int vez;
-
+    private PCEasy mente;
+    private boolean venceu;
     private Mesa jogo;
 
     private GridBagLayout layout;
     private GridBagConstraints constraints;
 
 
+    public JogoHVB(User j1) {
 
+        mente = new PCEasy();
 
-
-    public JogoHVH(User j1, User j2) {
-
-        jogadores = new ArrayList();
-        jogadores.add(j1);
-        jogadores.add(j2);
+        jogador = j1;
 
         jogo = new Mesa();
 
         maos = new ArrayList();
+
         maos.add(new Mao(7));
         maos.add(new Mao(7));
+        maos.add(new Mao(7));
+        maos.add(new Mao(7));
+        venceu = false;
         jogo.distribuirPecas(maos);
         criarJanela();
         iniciar();
         escolha = 0;
         vez = jogo.vez();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         atualizaJanela();
         atualizaBotoes();
+
+        if(vez > 0)
+            jogaBots();
     }
 
     /**
      * Este método serve para instanciar os atributos que compoem a tela vizual.
      */
-    public void criarJanela(){
+    public void criarJanela() {
 
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
@@ -85,8 +89,8 @@ public class JogoHVH extends JFrame implements ActionListener {
         painelMesa.setBorder(border);
         painelFunc.setBorder(border);
 
-        pecasJ1 = new JLabel("Peças Jogador 1: " + jogadores.get(0).getNome());
-        pecasJ2 = new JLabel("Peças Jogador 2: " + jogadores.get(1).getNome());
+        pecasJ1 = new JLabel("Peças Jogador: " + jogador.getNome());
+
 
         labelPeca = new JLabel("4-2");
         labelMesa = new JLabel("5-1|1-3|3-6|6-8|");
@@ -115,15 +119,14 @@ public class JogoHVH extends JFrame implements ActionListener {
         adicionarComponente(painelFunc, botaoLeft, 0, 4, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
 
         adicionarComponente(painelFunc, botaoPassar, 0, 5, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
-        adicionarComponente(painelDados,pecasJ1, 2, 0, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
-        adicionarComponente(painelDados,pecasJ2, 2, 1, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
-        adicionarComponente(painelDados,labelJogador, 0, 0, GridBagConstraints.SOUTH, 2, 1, GridBagConstraints.NONE);
+        adicionarComponente(painelDados, pecasJ1, 2, 0, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
+        adicionarComponente(painelDados, labelJogador, 0, 0, GridBagConstraints.SOUTH, 2, 1, GridBagConstraints.NONE);
 
         adicionarComponente(painelMesa, campoMesa, 0, 0, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
         adicionarComponente(painelMesa, labelMesa, 1, 0, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
 
-        adicionarComponente(painelJogador,campoMao, 0, 0, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
-        adicionarComponente(painelJogador,labelMao, 1, 0, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
+        adicionarComponente(painelJogador, campoMao, 0, 0, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
+        adicionarComponente(painelJogador, labelMao, 1, 0, GridBagConstraints.SOUTH, 1, 1, GridBagConstraints.NONE);
 
         adicionarComponente(this, painelFunc, 3, 0, GridBagConstraints.CENTER, 1, 1, GridBagConstraints.BOTH);
         adicionarComponente(this, painelDados, 1, 0, GridBagConstraints.CENTER, 1, 1, GridBagConstraints.BOTH);
@@ -138,38 +141,38 @@ public class JogoHVH extends JFrame implements ActionListener {
     /**
      * Atualiza os componentes conforme as jogadas
      */
-    private void atualizaJanela(){
+    private void atualizaJanela() {
 
-        if(escolha >= maos.get(vez).size())
+        if (escolha >= maos.get(vez).size())
             escolha = maos.get(vez).size() - 1;
 
-        pecasJ1.setText("Peças Jogador 1: " + jogadores.get(0).getNome());
-        pecasJ2.setText("Peças Jogador 2: " + jogadores.get(1).getNome());
-        campoMao.setText("Vez do jogador: " + jogadores.get(vez).getNome());
-        labelPeca.setText(maos.get(vez).olhaPeca(escolha));
+        if(vez != 0)
+            campoMao.setText("Vez do jogador: Caio Bot " + vez);
+        else
+            campoMao.setText("Vez do jogador: " + jogador.getNome());
+        labelPeca.setText(maos.get(0).olhaPeca(escolha));
         labelMesa.setText(jogo.toString());
-        labelMao.setText(maos.get(vez).olharMao());
-
-
+        labelMao.setText(maos.get(0).olharMao());
 
     }
 
     /**
      * Adiciona componentes em forma ordenada no painel conforme uma estrutura de plano cartesiano.
-     * @param panelG painel "pai" a ser inserido.
+     *
+     * @param panelG    painel "pai" a ser inserido.
      * @param component componente a ser inserido no painel
-     * @param y eixo y no plano
-     * @param x representa o eixo x no plano.
-     * @param pos representa a posicao
-     * @param cols numero de colunas a ser ocupado
-     * @param lins numero de linhas a ser ocupado
-     * @param preenche a posicao a ser preenchida.
+     * @param y         eixo y no plano
+     * @param x         representa o eixo x no plano.
+     * @param pos       representa a posicao
+     * @param cols      numero de colunas a ser ocupado
+     * @param lins      numero de linhas a ser ocupado
+     * @param preenche  a posicao a ser preenchida.
      */
-    private void adicionarComponente(Container panelG, JComponent component, int y, int x, int pos, int cols, int lins, int preenche){
+    private void adicionarComponente(Container panelG, JComponent component, int y, int x, int pos, int cols, int lins, int preenche) {
         constraints.gridy = y;
         constraints.gridx = x;
 
-        constraints.insets = new Insets(10,10,10,10);
+        constraints.insets = new Insets(10, 10, 10, 10);
         constraints.anchor = pos;
 
         constraints.gridwidth = cols;
@@ -186,7 +189,7 @@ public class JogoHVH extends JFrame implements ActionListener {
     /**
      * iniciar os parametros para o jframe
      */
-    private void iniciar(){
+    private void iniciar() {
         this.pack();
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -195,46 +198,56 @@ public class JogoHVH extends JFrame implements ActionListener {
 
     /**
      * Eventos dos botões
+     *
      * @param actionEvent
      */
     public void actionPerformed(ActionEvent actionEvent) {
 
-        if(actionEvent.getSource() == botaoLeft){
-            escolha ++;
-        }else{
-            if(actionEvent.getSource() == botaoRight){
-                escolha --;
-            }else{
-                if(actionEvent.getSource() == botaoPassar){
+        if (actionEvent.getSource() == botaoLeft) {
+            escolha++;
+        } else {
+            if (actionEvent.getSource() == botaoRight) {
+                escolha--;
+            } else {
+                if (actionEvent.getSource() == botaoPassar) {
 
-                    if(maos.get(vez).fazJogada( maos.get(vez).copiaPeca(escolha), jogo) == 0){
-                        atualizaJanela();
+                    if (maos.get(0).fazJogada(maos.get(0).copiaPeca(escolha), jogo) == 0) {
                         maos.get(vez).pegaPeca(escolha);
+                        atualizaJanela();
 
-                        if(jogo.acabou(maos.get(vez))){
-                            JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!");
-                            jogadores.get(vez).setScore(1);
+                        if (jogo.acabou(maos.get(vez))) {
+                            JOptionPane.showMessageDialog(null, jogador.getNome() + " VENCEU!!");
+                            jogador.setScore(1);
+                            venceu = true;
                             //FINALIZA O GAME
                             dispose();
-                        }else{
-                            if(jogo.taFechado()){
+                        } else {
+                            if (jogo.taFechado()) {
                                 vez = jogo.fechou(maos);
-                                JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!\n Com " + maos.get(0).pontoTotal() + " pontos");
-                                jogadores.get(vez).setScore(1);
+
+                                if(vez > 0){
+                                    JOptionPane.showMessageDialog(null, "Caio Bot " + vez + " VENCEU!!\n Com " + maos.get(vez).pontoTotal() + " pontos");
+                                }else{
+                                    JOptionPane.showMessageDialog(null, jogador.getNome() + " VENCEU!!\n Com " + maos.get(0).pontoTotal() + " pontos");
+                                    jogador.setScore(1);
+                                }
+                                venceu = true;
                                 //FINALIZA O GAME
                                 dispose();
                             }
                         }
 
-                        if(vez < jogadores.size() - 1){
-                            vez ++;
-                        }else{
+                        if (vez < maos.size() - 1) {
+                            vez++;
+                        } else {
                             vez = 0;
                         }
-
                         escolha = 0;
+                        atualizaJanela();
+                        if(!venceu)
+                            jogaBots();
 
-                    }else{
+                    }else {
                         if(!maos.get(vez).podeJogar(jogo) && !jogo.temCompra()){
                             if (vez < maos.size() - 1) {
                                 vez++;
@@ -243,13 +256,15 @@ public class JogoHVH extends JFrame implements ActionListener {
                             }
 
                             escolha = 0;
+                            atualizaJanela();
+                            jogaBots();
                         }else{
                             JOptionPane.showMessageDialog(null, "Jogada inválida!");
                         }
                     }
 
-                }else{
-                    if(actionEvent.getSource() == botaoComprar){
+                } else {
+                    if (actionEvent.getSource() == botaoComprar) {
                         maos.get(vez).addPeca(jogo.comprar());
                     }
                 }
@@ -261,31 +276,65 @@ public class JogoHVH extends JFrame implements ActionListener {
 
     }
 
+    private void jogaBots(){
+
+        while(vez != 0 && !venceu){
+
+            mente.jogadaAutomatica(maos.get(vez).getMao(), jogo);
+            atualizaJanela();
+            if (jogo.acabou(maos.get(vez))) {
+                JOptionPane.showMessageDialog(null, "Caio Bot " + vez + " VENCEU!!");
+                venceu = true;
+                //FINALIZA O GAME
+                dispose();
+            } else {
+                if (jogo.taFechado()) {
+                    vez = jogo.fechou(maos);
+
+                    if (vez > 0) {
+                        JOptionPane.showMessageDialog(null, "Computador " + vez + " VENCEU!!\n Com " + maos.get(0).pontoTotal() + " pontos");
+                    } else {
+                        JOptionPane.showMessageDialog(null, jogador.getNome() + " VENCEU!!\n Com " + maos.get(0).pontoTotal() + " pontos");
+                        jogador.setScore(1);
+                    }
+                    venceu = true;
+                    //FINALIZA O GAME
+                    dispose();
+                }
+            }
+
+            if(!venceu)
+                if (vez < maos.size() - 1) {
+                    vez++;
+                } else {
+                    vez = 0;
+                }
+
+            escolha = 0;
+            atualizaJanela();
+
+        }
+    }
+
     /**
      * atualiza os textos dos botões
      */
-    private void atualizaBotoes(){
+    private void atualizaBotoes() {
 
-        if(escolha == maos.get(vez).size() - 1){
-            escolha = maos.get(vez).size() - 1;
+        if (escolha == maos.get(0).size() - 1) {
+            escolha = maos.get(0).size() - 1;
             botaoLeft.setEnabled(false);
-        }else{
+        } else {
             botaoLeft.setEnabled(true);
         }
 
-        if(escolha <= 0){
+        if (escolha <= 0) {
             escolha = 0;
             botaoRight.setEnabled(false);
-        }else{
+        } else {
             botaoRight.setEnabled(true);
         }
 
-        if(maos.get(vez).podeJogar(jogo)){
-            botaoComprar.setEnabled(false);
-        }else{
-            botaoComprar.setEnabled(true);
-        }
-
     }
-
 }
+

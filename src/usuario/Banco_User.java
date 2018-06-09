@@ -28,6 +28,22 @@ public class Banco_User {
     }
 
     /**
+     * obtem o usuario que está no banco
+     * @param email
+     * @return um usuario caso encontre e nulo caso não
+     */
+    public User getUser(String email){
+        User retorno = null;
+        for(User u: banco){
+            if(u.getEmail().equals(email)){
+                retorno = u;
+            }
+        }
+        return retorno;
+    }
+
+
+    /**
      * @param info Mostra o usuario do banco na posicao "INFO" informada.
      * @return Retorna o usuario ou null, caso este não exista.
      */

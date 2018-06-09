@@ -8,8 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Login {
-
+public class LoginHVH {
 
     private JLabel labelEmail;
     private JTextField fieldEmail1;
@@ -23,14 +22,16 @@ public class Login {
     private JLabel labelJ1;
     private JLabel labelJ2;
     private Cadastro banco;
+    private JTabbedPane painelTabbed;
 
     private boolean loginJ1;
     private boolean loginJ2;
 
-    public Login(Cadastro banco){
+    public LoginHVH(Cadastro banco){
         this.banco = banco;
         this.loginJ1 = false;
         this.loginJ2 = false;
+        this.painelTabbed = painelTabbed;
         buttonPlay.setEnabled(false);
         buttonLogin1.addActionListener(new ActionListener() {
             @Override
@@ -64,13 +65,36 @@ public class Login {
                 User j1 = banco.procuraEmail(fieldEmail1.getText());
                 User j2 = banco.procuraEmail(fieldEmail2.getText());
                 JogoHVH jhvh = new JogoHVH(j1,j2);
+                banco.logoutUser(fieldEmail1.getText());
+                banco.logoutUser(fieldEmail2.getText());
+                reinicia();
+
+
             }
         });
 
   }
+
   public JPanel getPainel(){
         return painel;
   }
+  public void reinicia(){
+      labelJ1.setText("<html><font color=red>Pendente!</font></html>");
+      labelJ2.setText("<html><font color=red>Pendente!</font></html>");
+      fieldEmail1.setText("");
+      fieldEmail2.setText("");
+      fieldSenha1.setText("");
+      fieldSenha2.setText("");
+      buttonLogin1.setEnabled(true);
+      buttonLogin2.setEnabled(true);
+      buttonPlay.setEnabled(false);
+      loginJ1 = false;
+      loginJ2 = false;
+  }
+
+    /**
+     * confere se os dois jogadores estão logados para habilitar o botao de jogo
+     */
   public void confereLogados(){
       if(loginJ1 && loginJ2){
           buttonPlay.setEnabled(true);
