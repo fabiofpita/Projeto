@@ -25,6 +25,7 @@ public class Principal extends JFrame{
         iniciar();
         qtdPainel =0;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
     /**
@@ -56,6 +57,7 @@ public class Principal extends JFrame{
         painel.add("Cadastro",cadastro);
         painel.setMnemonicAt(0, KeyEvent.VK_1);
 
+
         JInternalFrame pvp = new JInternalFrame("LoginHVH");
         pvp.setContentPane(new LoginHVH(banco).getPainel());
         pvp.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -65,7 +67,24 @@ public class Principal extends JFrame{
         painel.setMnemonicAt(1, KeyEvent.VK_1);
 
 
-        JInternalFrame bot = new JInternalFrame();
+        JInternalFrame login = new JInternalFrame("LoginHVH");
+        login.setContentPane(new LoginHVH(banco).getPainel());
+        login.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        login.setVisible(true);
+        login.pack();
+        painel.add("Jogar 1x1",login);
+        painel.setMnemonicAt(1, KeyEvent.VK_1);
+
+        JInternalFrame ranking = new JInternalFrame("Ranking");
+        ranking.setContentPane(new Ranking().getPainel());
+        ranking.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        ranking.setVisible(true);
+        ranking.pack();
+        painel.add("Ranking",ranking);
+        painel.setMnemonicAt(2, KeyEvent.VK_1);
+
+
+        JInternalFrame bot = new JInternalFrame("Bot");
         bot.setContentPane(new LoginHVB(banco).getPainel());
         bot.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         bot.setVisible(true);
