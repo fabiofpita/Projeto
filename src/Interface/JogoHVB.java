@@ -278,6 +278,26 @@ public class JogoHVB extends JFrame implements ActionListener {
 
     private void jogaBots(){
 
+        int cont = 0;
+        while(cont < 2){
+            try {
+                Thread.sleep(500);
+
+                }catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            cont ++;
+        }
+
+
+
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            cont ++;
+        }
+
+
         while(vez != 0 && !venceu){
 
             mente.jogadaAutomatica(maos.get(vez).getMao(), jogo);

@@ -49,7 +49,7 @@ public class Banco_User {
      */
     public User mostrarUsuario(int info){
 
-        User usuario;
+        User usuario = null;
 
         try{
             usuario = banco.get(info);
@@ -110,5 +110,6 @@ public class Banco_User {
     public int getSize(){
         return banco.size();
     }
+
 
 }
