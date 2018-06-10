@@ -1,6 +1,6 @@
 package Interface;
 
-import sun.rmi.transport.ObjectTable;
+
 import usuario.Cadastro;
 import usuario.User;
 

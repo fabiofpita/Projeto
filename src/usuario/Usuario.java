@@ -29,6 +29,23 @@ public class Usuario extends User  implements Comparable<User> {
         bloqueado = false;
         this.tempoBloqueado = 0;
     }
+
+    public Usuario(String email, String nome, String senha, String ranking, String tempoBloq) {
+        setNome(nome);
+        setEmail(email);
+        setSenha(senha);
+        vitorias = 0;
+        derrotas = 0;
+        this.score = Integer.parseInt(ranking);
+        tentativas = 0;
+
+        this.tempoBloqueado = Long.parseLong(tempoBloq);
+        if(tempoBloqueado==0){
+            bloqueado = false;
+        }else {
+            bloqueado = true;
+        }
+    }
     @Override
     public int getScore() {
         return this.score;
@@ -103,6 +120,7 @@ public class Usuario extends User  implements Comparable<User> {
             setTempoBloqueado(hora);
             setBloqueado(true);
             resp = true;
+            Arquivo.atualizaBanco(Banco_User.pegaBanco());
         }
         return resp;
     }
@@ -114,6 +132,8 @@ public class Usuario extends User  implements Comparable<User> {
         if (getBloqueado()){
             if (aux >= BLOQUEIO){
                 setBloqueado(false);
+                setTempoBloqueado(0);
+                Arquivo.atualizaBanco(Banco_User.pegaBanco());
             }else{
                 resp = true;
             }

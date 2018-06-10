@@ -7,14 +7,26 @@ import java.util.*;
  */
 public class Banco_User {
 
-    private List<User> banco;
+    private static List<User> banco;
 
     /**
      * Construtor do banco de usuarios.
      */
     public Banco_User(){
 
-        banco = new ArrayList<>();
+        if(Arquivo.verificaArquivo()){
+            banco = Arquivo.iniciaBanco();
+        }else{
+            banco = new ArrayList<>();
+        }
+    }
+
+    /**
+     * Função que pega o banco para atualizações no arquivo txt.
+     * @return banco.
+     */
+    public static List<User> pegaBanco(){
+        return banco;
     }
 
     /**
@@ -25,6 +37,7 @@ public class Banco_User {
 
         if(info != null)
             banco.add(info);
+            Arquivo.atualizaBanco(Banco_User.pegaBanco());
     }
 
     /**
