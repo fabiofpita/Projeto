@@ -3,7 +3,6 @@ package main;
 
 
 import Interface.Principal;
-import domino.Mao;
 import domino.Mesa;
 import rank.Ranking;
 import usuario.Cadastro;
