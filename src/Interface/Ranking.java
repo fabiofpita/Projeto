@@ -1,8 +1,6 @@
 package Interface;
 
-
 import usuario.Cadastro;
-import usuario.User;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -25,9 +23,10 @@ public class Ranking extends JFrame implements ActionListener  {
     public Ranking(Cadastro banco) {
         this.banco = banco;
         criarJanela();
+        banco.getBanco().ordena();
     }
     public void criarJanela(){
-
+        banco.getBanco().ordena();
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
         setLayout(layout);
@@ -48,9 +47,6 @@ public class Ranking extends JFrame implements ActionListener  {
         tabela.setFillsViewportHeight(true);
         scroll = new JScrollPane();
         scroll.setViewportView(tabela);
-
-
-
 
 
         adicionarComponente(painel,scroll, 0, 0, GridBagConstraints.SOUTH, 1, 2, GridBagConstraints.NONE);
@@ -85,6 +81,7 @@ public class Ranking extends JFrame implements ActionListener  {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        banco.getBanco().ordena();
         if(e.getSource() == buttonRanking5){
             modelDep.setNumRows(0);
             for(int i =0; i < 5; i++){
@@ -107,5 +104,20 @@ public class Ranking extends JFrame implements ActionListener  {
             }
         }
 
+    }
+
+    /**
+     * Atualiza tela.
+     */
+    public void atualiza(){
+        modelDep.setNumRows(0);
+        for(int i =0; i < 5; i++){
+            if(banco.getBanco().getSize() >i) {
+                Object[] linha = new Object[]{banco.getBanco().mostrarUsuario(i).getNome(),
+                        banco.getBanco().mostrarUsuario(i).getScore()};
+
+                modelDep.addRow(linha);
+            }
+        }
     }
 }

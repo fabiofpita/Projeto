@@ -16,6 +16,7 @@ public class Principal extends JFrame{
     private JMenuBar barra;
     private Cadastro banco;
     private JTabbedPane painel;
+    private Ranking att;
     private int qtdPainel;
 
     public Principal(Cadastro banco){
@@ -57,7 +58,6 @@ public class Principal extends JFrame{
         painel.add("Cadastro",cadastro);
         painel.setMnemonicAt(0, KeyEvent.VK_1);
 
-
         JInternalFrame pvp = new JInternalFrame("LoginHVH");
         pvp.setContentPane(new LoginHVH(banco).getPainel());
         pvp.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -65,7 +65,6 @@ public class Principal extends JFrame{
         pvp.pack();
         painel.add("Jogar 1x1",pvp);
         painel.setMnemonicAt(1, KeyEvent.VK_1);
-
 
         JInternalFrame bot = new JInternalFrame("Bot");
         bot.setContentPane(new LoginHVB(banco).getPainel());
@@ -75,14 +74,14 @@ public class Principal extends JFrame{
         painel.add("Jogar contra BOT",bot);
         painel.setMnemonicAt(2,KeyEvent.VK_1);
 
-        JInternalFrame ranking = new JInternalFrame("Ranking");
-        ranking.setContentPane(new Ranking(banco).getPainel());
-        ranking.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        ranking.setVisible(true);
-        ranking.pack();
-        painel.add("Ranking",ranking);
+        JInternalFrame rankig = new JInternalFrame("Ranking");
+        att = new Ranking(banco);
+        rankig.setContentPane(att.getPainel());
+        rankig.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        rankig.setVisible(true);
+        rankig.pack();
+        painel.add("Ranking",rankig);
         painel.setMnemonicAt(3, KeyEvent.VK_1);
-
 
         itemCadastro.addActionListener(new ActionListener() {
             @Override
@@ -100,6 +99,7 @@ public class Principal extends JFrame{
         itemRanking.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                att.atualiza();
                 painel.setSelectedIndex(3);
             }
         });

@@ -15,7 +15,7 @@ public class Arquivo {
         String[] conteudo;
         List<User> retorno = null;
         try {
-            FileReader arq = new FileReader("C:\\data.txt");
+            FileReader arq = new FileReader("data.txt");
             BufferedReader lerArq = new BufferedReader(arq);
             String linha;
             try {
@@ -49,7 +49,7 @@ public class Arquivo {
         int line=0;
 
         try{
-            FileWriter fileWriter = new FileWriter("C:\\data.txt", false);
+            FileWriter fileWriter = new FileWriter("data.txt", false);
             BufferedWriter printWriter = new BufferedWriter(fileWriter);
             StringBuilder stringBuilder = new StringBuilder();
             String [] linha;
@@ -80,7 +80,7 @@ public class Arquivo {
 
 
         try {
-            FileReader arq = new FileReader("C:\\data.txt");
+            FileReader arq = new FileReader("data.txt");
             BufferedReader lerArq = new BufferedReader(arq);
             String linha;
             try {
