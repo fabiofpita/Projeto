@@ -10,10 +10,9 @@ import java.awt.event.KeyEvent;
 public class Principal extends JFrame{
     private JMenu menu;
     private JMenuItem itemCadastro;
-    private JMenuItem itemLogin;
-    private JMenuItem itemJogar;
+    private JMenuItem itemPvP;
+    private JMenuItem itemPvB;
     private JMenuItem itemRanking;
-    private JMenuItem itemJvsBot;
     private JMenuBar barra;
     private Cadastro banco;
     private JTabbedPane painel;
@@ -28,22 +27,25 @@ public class Principal extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
+
+    /**
+     * gera os componentes visuais
+     */
     private void gerar(){
         painel = new JTabbedPane();
         this.menu = new JMenu("Opções");
         this.barra = new JMenuBar();
         setJMenuBar(barra);
         this.itemCadastro = new JMenuItem("Cadastrar usuario");
-        this.itemLogin = new JMenuItem("2 jogadores");
-        this.itemJogar = new JMenuItem("Contra o computador");
+        this.itemPvP = new JMenuItem("2 jogadores");
+        this.itemPvB = new JMenuItem("Contra o computador");
         this.itemRanking = new JMenuItem("Ranking");
-        this.itemJvsBot = new JMenuItem("Jogar contra BOT");
+
 
         menu.add(itemCadastro);
-        menu.add(itemLogin);
-        menu.add(itemJogar);
+        menu.add(itemPvP);
+        menu.add(itemPvB);
         menu.add(itemRanking);
-        menu.add(itemJvsBot);
         barra.add(menu);
         this.add(painel);
 
@@ -54,6 +56,16 @@ public class Principal extends JFrame{
         cadastro.pack();
         painel.add("Cadastro",cadastro);
         painel.setMnemonicAt(0, KeyEvent.VK_1);
+
+
+        JInternalFrame pvp = new JInternalFrame("LoginHVH");
+        pvp.setContentPane(new LoginHVH(banco).getPainel());
+        pvp.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        pvp.setVisible(true);
+        pvp.pack();
+        painel.add("Jogar 1x1",pvp);
+        painel.setMnemonicAt(1, KeyEvent.VK_1);
+
 
         JInternalFrame login = new JInternalFrame("LoginHVH");
         login.setContentPane(new LoginHVH(banco).getPainel());
@@ -71,13 +83,23 @@ public class Principal extends JFrame{
         painel.add("Ranking",ranking);
         painel.setMnemonicAt(2, KeyEvent.VK_1);
 
+
         JInternalFrame bot = new JInternalFrame("Bot");
         bot.setContentPane(new LoginHVB(banco).getPainel());
         bot.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         bot.setVisible(true);
         bot.pack();
         painel.add("Jogar contra BOT",bot);
-        painel.setMnemonicAt(3,KeyEvent.VK_1);
+        painel.setMnemonicAt(2,KeyEvent.VK_1);
+
+        JInternalFrame ranking = new JInternalFrame("Ranking");
+        ranking.setContentPane(new Ranking(banco).getPainel());
+        ranking.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        ranking.setVisible(true);
+        ranking.pack();
+        painel.add("Ranking",ranking);
+        painel.setMnemonicAt(3, KeyEvent.VK_1);
+
 
         itemCadastro.addActionListener(new ActionListener() {
             @Override
@@ -86,7 +108,7 @@ public class Principal extends JFrame{
             }
 
         });
-        itemLogin.addActionListener(new ActionListener() {
+        itemPvP.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 painel.setSelectedIndex(1);
@@ -95,25 +117,25 @@ public class Principal extends JFrame{
         itemRanking.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                painel.setSelectedIndex(2);
+                painel.setSelectedIndex(3);
             }
         });
-        itemJogar.addActionListener(new ActionListener() {
+        itemPvB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JogoHVH jhvh = new JogoHVH();
+                painel.setSelectedIndex(2);
             }
         });
     }
 
-
+    /**
+     * Inicia a tela
+     */
     private void iniciar(){
-        this.setSize(600,400);
+        this.setSize(560,600);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         this.setVisible(true);
     }
-    public void removeInteral(){
 
-    }
 }

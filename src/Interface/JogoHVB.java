@@ -282,11 +282,21 @@ public class JogoHVB extends JFrame implements ActionListener {
         while(cont < 2){
             try {
                 Thread.sleep(500);
+
+                }catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            cont ++;
+        }
+
+
+
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
             cont ++;
         }
+
 
         while(vez != 0 && !venceu){
 
