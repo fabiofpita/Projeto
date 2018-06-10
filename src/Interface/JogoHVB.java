@@ -291,13 +291,6 @@ public class JogoHVB extends JFrame implements ActionListener {
 
 
 
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            cont ++;
-        }
-
-
         while(vez != 0 && !venceu){
 
             mente.jogadaAutomatica(maos.get(vez).getMao(), jogo);
@@ -335,6 +328,7 @@ public class JogoHVB extends JFrame implements ActionListener {
 
         }
     }
+
 
     /**
      * atualiza os textos dos botões

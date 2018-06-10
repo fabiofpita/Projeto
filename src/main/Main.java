@@ -5,9 +5,8 @@ package main;
 import Interface.Principal;
 import domino.Mesa;
 import rank.Ranking;
-import usuario.Cadastro;
-import usuario.User;
-import usuario.Usuario;
+import usuario.*;
+
 import javax.swing.*;
 
 public class Main {
@@ -27,6 +26,7 @@ public class Main {
         Ranking ranking = new Ranking(cadastro.getBanco());
         Mesa mesa = new Mesa();
         Principal p = new Principal(cadastro);
+
 /*
         Mao jogador1 = new Mao(7);
         Mao jogador2 = new Mao(7);
@@ -177,6 +177,8 @@ public class Main {
          System.out.println(rank.getRankingTop5());
         System.out.println(rank.getRankingGlobal());
         */
+
+
     }
 
     public static Usuario readUsuario(String email){

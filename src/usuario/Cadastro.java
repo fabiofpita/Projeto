@@ -42,6 +42,7 @@ public class Cadastro {
             info.setSenha(criptar.gerarMD5(info.getSenha()));
             banco.pushBanco(info);
             deuCerto = true;
+
         }
 
         return deuCerto;
