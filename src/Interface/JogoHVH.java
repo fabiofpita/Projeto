@@ -201,7 +201,6 @@ public class JogoHVH extends JFrame implements ActionListener {
 
         if(actionEvent.getSource() == botaoLeft){
             escolha ++;
-            System.out.println( "ANTES " + escolha);
         }else{
             if(actionEvent.getSource() == botaoRight){
                 escolha --;
@@ -209,7 +208,7 @@ public class JogoHVH extends JFrame implements ActionListener {
                 if(actionEvent.getSource() == botaoPassar){
 
                     if(maos.get(vez).fazJogada( maos.get(vez).copiaPeca(escolha), jogo) == 0){
-
+                        atualizaJanela();
                         maos.get(vez).pegaPeca(escolha);
 
                         if(jogo.acabou(maos.get(vez))){
@@ -220,7 +219,7 @@ public class JogoHVH extends JFrame implements ActionListener {
                         }else{
                             if(jogo.taFechado()){
                                 vez = jogo.fechou(maos);
-                                JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!");
+                                JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() +" VENCEU!!\n Com " + maos.get(0).pontoTotal() + " pontos");
                                 jogadores.get(vez).setScore(1);
                                 //FINALIZA O GAME
                                 dispose();
@@ -236,7 +235,17 @@ public class JogoHVH extends JFrame implements ActionListener {
                         escolha = 0;
 
                     }else{
-                        JOptionPane.showMessageDialog(null, "Jogada inválida!");
+                        if(!maos.get(vez).podeJogar(jogo) && !jogo.temCompra()){
+                            if (vez < maos.size() - 1) {
+                                vez++;
+                            } else {
+                                vez = 0;
+                            }
+
+                            escolha = 0;
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Jogada inválida!");
+                        }
                     }
 
                 }else{
@@ -276,8 +285,6 @@ public class JogoHVH extends JFrame implements ActionListener {
         }else{
             botaoComprar.setEnabled(true);
         }
-
-        System.out.println("Vez de " + vez +  " Aqui - " + escolha + " Size: " + (maos.get(vez).size() - 1));
 
     }
 

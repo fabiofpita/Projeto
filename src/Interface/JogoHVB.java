@@ -1,5 +1,6 @@
 package Interface;
 
+import computador.PCEasy;
 import domino.Mao;
 import domino.Mesa;
 import usuario.User;
@@ -17,7 +18,6 @@ public class JogoHVB extends JFrame implements ActionListener {
     private JLabel labelPeca;
     private JLabel labelMesa;
     private JLabel pecasJ1;
-    private JLabel pecasBot;
     private JLabel labelJogador;
     private JLabel campoMesa;
     private JLabel labelMao;
@@ -30,11 +30,12 @@ public class JogoHVB extends JFrame implements ActionListener {
     private JPanel painelMesa;
     private JPanel painelDados;
     private JPanel painelJogador;
-    private List<User> jogadores;
+    private User jogador;
     private List<Mao> maos;
     private int escolha;
     private int vez;
-
+    private PCEasy mente;
+    private boolean venceu;
     private Mesa jogo;
 
     private GridBagLayout layout;
@@ -42,26 +43,31 @@ public class JogoHVB extends JFrame implements ActionListener {
 
 
     public JogoHVB(User j1) {
-/*
-        jogadores = new ArrayList();
-        jogadores.add(j1);
+
+        mente = new PCEasy();
+
+        jogador = j1;
 
         jogo = new Mesa();
 
         maos = new ArrayList();
-        maos.add(new Mao(7));
-        jogo.distribuirPecas(maos);
 
+        maos.add(new Mao(7));
+        maos.add(new Mao(7));
+        maos.add(new Mao(7));
+        maos.add(new Mao(7));
+        venceu = false;
+        jogo.distribuirPecas(maos);
+        criarJanela();
         iniciar();
         escolha = 0;
         vez = jogo.vez();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         atualizaJanela();
         atualizaBotoes();
-*/
-        criarJanela();
-        iniciar();
 
+        if(vez > 0)
+            jogaBots();
     }
 
     /**
@@ -83,13 +89,13 @@ public class JogoHVB extends JFrame implements ActionListener {
         painelMesa.setBorder(border);
         painelFunc.setBorder(border);
 
-        pecasJ1 = new JLabel("Peças Jogador 1: " );
+        pecasJ1 = new JLabel("Peças Jogador: " + jogador.getNome());
 
 
-        labelPeca = new JLabel("");
-        labelMesa = new JLabel("");
+        labelPeca = new JLabel("4-2");
+        labelMesa = new JLabel("5-1|1-3|3-6|6-8|");
         campoMesa = new JLabel("Mesa:");
-        labelMao = new JLabel("");
+        labelMao = new JLabel("4-2 ; 3-4 ; 6-6;");
         campoMao = new JLabel("Mão do jogador");
         labelJogador = new JLabel();
 
@@ -126,10 +132,10 @@ public class JogoHVB extends JFrame implements ActionListener {
         adicionarComponente(this, painelDados, 1, 0, GridBagConstraints.CENTER, 1, 1, GridBagConstraints.BOTH);
         adicionarComponente(this, painelMesa, 2, 0, GridBagConstraints.CENTER, 1, 1, GridBagConstraints.BOTH);
         adicionarComponente(this, painelJogador, 4, 0, GridBagConstraints.CENTER, 1, 1, GridBagConstraints.BOTH);
-/*
+
         atualizaJanela();
         atualizaBotoes();
-*/
+
     }
 
     /**
@@ -140,12 +146,13 @@ public class JogoHVB extends JFrame implements ActionListener {
         if (escolha >= maos.get(vez).size())
             escolha = maos.get(vez).size() - 1;
 
-        pecasJ1.setText("Peças Jogador 1: " + jogadores.get(0).getNome());
-        campoMao.setText("Vez do jogador: " + jogadores.get(vez).getNome());
-        labelPeca.setText(maos.get(vez).olhaPeca(escolha));
+        if(vez != 0)
+            campoMao.setText("Vez do jogador: Caio Bot " + vez);
+        else
+            campoMao.setText("Vez do jogador: " + jogador.getNome());
+        labelPeca.setText(maos.get(0).olhaPeca(escolha));
         labelMesa.setText(jogo.toString());
-        labelMao.setText(maos.get(vez).olharMao());
-
+        labelMao.setText(maos.get(0).olharMao());
 
     }
 
@@ -198,42 +205,62 @@ public class JogoHVB extends JFrame implements ActionListener {
 
         if (actionEvent.getSource() == botaoLeft) {
             escolha++;
-            System.out.println("ANTES " + escolha);
         } else {
             if (actionEvent.getSource() == botaoRight) {
                 escolha--;
             } else {
                 if (actionEvent.getSource() == botaoPassar) {
 
-                    if (maos.get(vez).fazJogada(maos.get(vez).copiaPeca(escolha), jogo) == 0) {
-
+                    if (maos.get(0).fazJogada(maos.get(0).copiaPeca(escolha), jogo) == 0) {
                         maos.get(vez).pegaPeca(escolha);
+                        atualizaJanela();
 
                         if (jogo.acabou(maos.get(vez))) {
-                            JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() + " VENCEU!!");
-                            jogadores.get(vez).setScore(1);
+                            JOptionPane.showMessageDialog(null, jogador.getNome() + " VENCEU!!");
+                            jogador.setScore(1);
+                            venceu = true;
                             //FINALIZA O GAME
                             dispose();
                         } else {
                             if (jogo.taFechado()) {
                                 vez = jogo.fechou(maos);
-                                JOptionPane.showMessageDialog(null, jogadores.get(vez).getNome() + " VENCEU!!");
-                                jogadores.get(vez).setScore(1);
+
+                                if(vez > 0){
+                                    JOptionPane.showMessageDialog(null, "Caio Bot " + vez + " VENCEU!!\n Com " + maos.get(vez).pontoTotal() + " pontos");
+                                }else{
+                                    JOptionPane.showMessageDialog(null, jogador.getNome() + " VENCEU!!\n Com " + maos.get(0).pontoTotal() + " pontos");
+                                    jogador.setScore(1);
+                                }
+                                venceu = true;
                                 //FINALIZA O GAME
                                 dispose();
                             }
                         }
 
-                        if (vez < jogadores.size() - 1) {
+                        if (vez < maos.size() - 1) {
                             vez++;
                         } else {
                             vez = 0;
                         }
-
                         escolha = 0;
+                        atualizaJanela();
+                        if(!venceu)
+                            jogaBots();
 
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Jogada inválida!");
+                    }else {
+                        if(!maos.get(vez).podeJogar(jogo) && !jogo.temCompra()){
+                            if (vez < maos.size() - 1) {
+                                vez++;
+                            } else {
+                                vez = 0;
+                            }
+
+                            escolha = 0;
+                            atualizaJanela();
+                            jogaBots();
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Jogada inválida!");
+                        }
                     }
 
                 } else {
@@ -249,13 +276,63 @@ public class JogoHVB extends JFrame implements ActionListener {
 
     }
 
+    private void jogaBots(){
+        int cont = 0;
+        while(cont < 2){
+            try {
+                Thread.sleep(500);
+                }catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            cont ++;
+        }
+
+
+        while(vez != 0 && !venceu){
+
+            mente.jogadaAutomatica(maos.get(vez).getMao(), jogo);
+            atualizaJanela();
+            if (jogo.acabou(maos.get(vez))) {
+                JOptionPane.showMessageDialog(null, "Caio Bot " + vez + " VENCEU!!");
+                venceu = true;
+                //FINALIZA O GAME
+                dispose();
+            } else {
+                if (jogo.taFechado()) {
+                    vez = jogo.fechou(maos);
+
+                    if (vez > 0) {
+                        JOptionPane.showMessageDialog(null, "Computador " + vez + " VENCEU!!\n Com " + maos.get(0).pontoTotal() + " pontos");
+                    } else {
+                        JOptionPane.showMessageDialog(null, jogador.getNome() + " VENCEU!!\n Com " + maos.get(0).pontoTotal() + " pontos");
+                        jogador.setScore(1);
+                    }
+                    venceu = true;
+                    //FINALIZA O GAME
+                    dispose();
+                }
+            }
+
+            if(!venceu)
+                if (vez < maos.size() - 1) {
+                    vez++;
+                } else {
+                    vez = 0;
+                }
+
+            escolha = 0;
+            atualizaJanela();
+
+        }
+    }
+
     /**
      * atualiza os textos dos botões
      */
     private void atualizaBotoes() {
 
-        if (escolha == maos.get(vez).size() - 1) {
-            escolha = maos.get(vez).size() - 1;
+        if (escolha == maos.get(0).size() - 1) {
+            escolha = maos.get(0).size() - 1;
             botaoLeft.setEnabled(false);
         } else {
             botaoLeft.setEnabled(true);
@@ -267,14 +344,6 @@ public class JogoHVB extends JFrame implements ActionListener {
         } else {
             botaoRight.setEnabled(true);
         }
-
-        if (maos.get(vez).podeJogar(jogo)) {
-            botaoComprar.setEnabled(false);
-        } else {
-            botaoComprar.setEnabled(true);
-        }
-
-        System.out.println("Vez de " + vez + " Aqui - " + escolha + " Size: " + (maos.get(vez).size() - 1));
 
     }
 }
