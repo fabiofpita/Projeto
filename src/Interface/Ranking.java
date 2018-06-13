@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Ranking extends JFrame implements ActionListener  {
+public class Ranking extends JFrame implements ActionListener {
     private JPanel painel;
     private JTable tabela;
     private JScrollPane scroll;
@@ -38,6 +38,7 @@ public class Ranking extends JFrame implements ActionListener  {
         buttonRanking5.addActionListener(this);
 
         modelDep = new DefaultTableModel();
+
         tabela = new JTable(modelDep);
 
         modelDep.addColumn("Nome");
@@ -57,6 +58,7 @@ public class Ranking extends JFrame implements ActionListener  {
         modelDep.setNumRows(0);
 
     }
+
     private void adicionarComponente(Container panelG, JComponent component, int y, int x, int pos, int cols, int lins, int preenche) {
         constraints.gridy = y;
         constraints.gridx = x;
@@ -82,6 +84,7 @@ public class Ranking extends JFrame implements ActionListener  {
     @Override
     public void actionPerformed(ActionEvent e) {
         banco.getBanco().ordena();
+
         if(e.getSource() == buttonRanking5){
             modelDep.setNumRows(0);
             for(int i =0; i < 5; i++){

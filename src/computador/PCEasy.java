@@ -84,5 +84,11 @@ public class PCEasy extends Computador {
                    }
            }
 
+//           try{
+//               Thread.sleep(100);
+//           }catch (InterruptedException e) {
+//               e.printStackTrace();
+//           }
+
       }
 }
