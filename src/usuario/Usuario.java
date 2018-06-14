@@ -54,6 +54,7 @@ public class Usuario extends User  implements Comparable<User> {
     @Override
     public void setScore(long info) {
         this.score += info;
+        Arquivo.atualizaBanco(Banco_User.pegaBanco());
     }
 
     @Override

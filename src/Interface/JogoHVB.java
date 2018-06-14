@@ -44,6 +44,8 @@ public class JogoHVB extends JFrame implements ActionListener {
 
     public JogoHVB(User j1) {
 
+        this.setExtendedState(MAXIMIZED_BOTH);
+
         mente = new PCEasy();
 
         jogador = j1;
@@ -277,19 +279,6 @@ public class JogoHVB extends JFrame implements ActionListener {
     }
 
     private void jogaBots(){
-
-        int cont = 0;
-        while(cont < 2){
-            try {
-                Thread.sleep(500);
-
-                }catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            cont ++;
-        }
-
-
 
         while(vez != 0 && !venceu){
 

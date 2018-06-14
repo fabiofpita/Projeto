@@ -18,14 +18,22 @@ public class Main {
 
     public static void main(String[] args) {
 
-
+        boolean entrar = false;
 
         User usuario;
         Cadastro cadastro = new Cadastro(TAMANHO_MAX);
         Main main = new Main();
         Ranking ranking = new Ranking(cadastro.getBanco());
         Mesa mesa = new Mesa();
-        Principal p = new Principal(cadastro);
+
+        while(!entrar){
+            try {
+                Principal p = new Principal(cadastro);
+                entrar = true;
+            }catch (Exception o){
+                entrar = false;
+            }
+        }
 
 /*
         Mao jogador1 = new Mao(7);

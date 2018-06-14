@@ -46,6 +46,8 @@ public class JogoHVH extends JFrame implements ActionListener {
 
     public JogoHVH(User j1, User j2) {
 
+        this.setExtendedState(MAXIMIZED_BOTH);
+
         jogadores = new ArrayList();
         jogadores.add(j1);
         jogadores.add(j2);
